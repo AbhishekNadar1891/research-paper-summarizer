@@ -121,3 +121,4 @@ class Answer:
     tensions: list[Tension] = field(default_factory=list)
     gaps: list[str] = field(default_factory=list)
     grounded: bool = True  # False for the "without documents" answer
+    mode: str = "llm"      # "llm" or "extractive" (offline fallback)
