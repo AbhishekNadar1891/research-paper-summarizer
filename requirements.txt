@@ -10,7 +10,7 @@ arxiv>=2.1
 # Retrieval
 rank-bm25>=0.2.2
 sentence-transformers>=3.0
-chromadb>=0.5
+numpy>=1.26
 
 # Truth highlighter (NLI)
 transformers>=4.44
