@@ -1,0 +1,23 @@
+# Core
+anthropic>=0.40
+python-dotenv>=1.0
+pydantic>=2.7
+
+# Ingestion
+pypdf>=4.2
+arxiv>=2.1
+
+# Retrieval
+rank-bm25>=0.2.2
+sentence-transformers>=3.0
+chromadb>=0.5
+
+# Truth highlighter (NLI)
+transformers>=4.44
+torch>=2.3
+
+# App
+streamlit>=1.38
+
+# Dev
+pytest>=8.2
