@@ -1,7 +1,7 @@
 # Roadmap
 
 - [x] 1. Project setup: structure, config, core data types
-- [ ] 2. Ingestion: PDF and arXiv loading, passage chunking, starter paper collection
+- [x] 2. Ingestion: PDF and arXiv loading, passage chunking, starter paper collection
 - [ ] 3. Retrieval: hybrid BM25 + embedding search with per-paper diversity
 - [ ] 4. Generation: grounded answer, per-paper findings, evidence ratings (Claude, JSON output)
 - [ ] 5. Citation validator: invented, misattributed and weak citations; strength downgrades

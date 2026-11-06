@@ -1,0 +1,74 @@
+{
+  "name": "Hallucination in language models: starter collection",
+  "note": "Passages are paraphrased summaries of each paper's abstract and results, not verbatim quotes. Follow the links for the original text.",
+  "papers": [
+    {"key": "lewis2020", "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks", "authors": "Lewis et al.", "year": 2020, "url": "https://arxiv.org/abs/2005.11401", "family": "retrieval", "study_type": "method", "passages": [
+      "RAG combines a pre-trained seq2seq generator (parametric memory) with a dense vector index of Wikipedia (non-parametric memory) accessed through a neural retriever. The retriever and generator are fine-tuned end to end.",
+      "RAG set the state of the art on three open-domain question answering benchmarks. Human raters judged its generations more factual and more specific than those of a parametric-only BART baseline.",
+      "Because knowledge is stored in a document index rather than only in weights, it can be updated by replacing documents without retraining the model, which offers a way to correct outdated facts."]},
+    {"key": "shuster2021", "title": "Retrieval Augmentation Reduces Hallucination in Conversation", "authors": "Shuster et al.", "year": 2021, "url": "https://arxiv.org/abs/2104.07567", "family": "retrieval", "study_type": "method", "passages": [
+      "The authors study retrieval-augmented architectures for knowledge-grounded dialogue, combining retrievers, rankers and encoder-decoders such as RAG and Fusion-in-Decoder variants.",
+      "Human evaluations show that retrieval-augmented dialogue models substantially reduce knowledge hallucination compared with standard large dialogue models, while keeping conversational ability.",
+      "The best retrieval-augmented models reach state-of-the-art results on knowledge-grounded conversation tasks and generalize better to topics unseen in training."]},
+    {"key": "asai2023", "title": "Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection", "authors": "Asai et al.", "year": 2023, "url": "https://arxiv.org/abs/2310.11511", "family": "retrieval", "study_type": "method", "passages": [
+      "Self-RAG trains a single language model to retrieve passages on demand and to generate reflection tokens that judge whether retrieval is needed, whether passages are relevant, and whether its own output is supported by them.",
+      "Across six tasks, Self-RAG at 7B and 13B outperformed ChatGPT and retrieval-augmented Llama2-chat on open-domain QA, reasoning and fact verification, with large gains in factuality and citation accuracy for long-form generation.",
+      "Reflection tokens make the model controllable at inference time, so users can trade citation precision against completeness without retraining."]},
+    {"key": "dhuliawala2023", "title": "Chain-of-Verification Reduces Hallucination in Large Language Models", "authors": "Dhuliawala et al.", "year": 2023, "url": "https://arxiv.org/abs/2309.11495", "family": "verification", "study_type": "method", "passages": [
+      "Chain-of-Verification (CoVe) has the model draft a response, plan verification questions to fact-check the draft, answer those questions independently, and then write a final verified response.",
+      "CoVe decreased hallucinations on list-based questions from Wikidata, closed-book MultiSpanQA and long-form biography generation.",
+      "The factored variant, which answers each verification question in a separate prompt without the draft in context, worked better than joint verification, because a model that can see its draft tends to repeat its own hallucinations."]},
+    {"key": "gao2022", "title": "RARR: Researching and Revising What Language Models Say, Using Language Models", "authors": "Gao et al.", "year": 2022, "url": "https://arxiv.org/abs/2210.08726", "family": "verification", "study_type": "method", "passages": [
+      "RARR automatically finds attribution for the output of any text generation model and post-edits the output to fix unsupported content, while preserving the original text as much as possible.",
+      "The system works in two stages: a research stage that generates queries and retrieves evidence, and a revision stage that checks agreement with the evidence and edits disagreeing content.",
+      "Across several generation tasks, RARR significantly improved attribution while preserving the original input to a greater degree than earlier editing models."]},
+    {"key": "varshney2023", "title": "A Stitch in Time Saves Nine: Detecting and Mitigating Hallucinations of LLMs by Validating Low-Confidence Generation", "authors": "Varshney et al.", "year": 2023, "url": "https://arxiv.org/abs/2307.03987", "family": "detection", "study_type": "method", "passages": [
+      "The method detects likely hallucinations during generation from the model's logit-based uncertainty on key concepts, then validates those concepts against retrieved knowledge and repairs them before generation continues.",
+      "Detection reached about 88% recall, and the mitigation step corrected 57.6% of correctly detected hallucinations without introducing new ones in most cases.",
+      "Applied actively during generation, the approach reduced GPT-3.5's hallucination rate from 47.5% to 14.5% on average in the authors' article-generation setting."]},
+    {"key": "manakul2023", "title": "SelfCheckGPT: Zero-Resource Black-Box Hallucination Detection for Generative LLMs", "authors": "Manakul et al.", "year": 2023, "url": "https://arxiv.org/abs/2303.08896", "family": "detection", "study_type": "method", "passages": [
+      "SelfCheckGPT detects hallucinations without access to model internals or an external database: it samples several responses and checks whether a claim is consistent across them.",
+      "The intuition is that when a model knows a fact, sampled responses tend to agree, while hallucinated facts tend to diverge and contradict one another.",
+      "On GPT-3 generated WikiBio passages, SelfCheckGPT achieved higher AUC-PR for sentence-level hallucination detection than grey-box methods and correlated well with passage-level factuality judgments."]},
+    {"key": "kadavath2022", "title": "Language Models (Mostly) Know What They Know", "authors": "Kadavath et al.", "year": 2022, "url": "https://arxiv.org/abs/2207.05221", "family": "detection", "study_type": "analysis", "passages": [
+      "Larger language models are well calibrated on diverse multiple-choice and true/false questions when the questions are presented in a suitable format.",
+      "Models can estimate the probability that their own proposed answer is true, P(True), and this self-evaluation improves when the model first sees several of its own sampled answers.",
+      "Models can also be trained to predict P(IK), the probability that they know the answer to a question; this partly generalizes across tasks, though calibration on new tasks is weaker."]},
+    {"key": "chuang2023", "title": "DoLa: Decoding by Contrasting Layers Improves Factuality in Large Language Models", "authors": "Chuang et al.", "year": 2023, "url": "https://arxiv.org/abs/2309.03883", "family": "inference", "study_type": "method", "passages": [
+      "DoLa obtains the next-token distribution by contrasting logits from later transformer layers with those from earlier layers, based on the observation that factual knowledge tends to be localized in particular layers.",
+      "Without retrieved knowledge or additional fine-tuning, DoLa improved LLaMA models' truthfulness on TruthfulQA by 12 to 17 absolute percentage points.",
+      "The decoding strategy adds only a small latency cost and also improved results on other factuality tasks such as FACTOR and chain-of-thought reasoning benchmarks."]},
+    {"key": "li2023", "title": "Inference-Time Intervention: Eliciting Truthful Answers from a Language Model", "authors": "Li et al.", "year": 2023, "url": "https://arxiv.org/abs/2306.03341", "family": "inference", "study_type": "method", "passages": [
+      "Inference-Time Intervention (ITI) shifts model activations along directions associated with truthfulness in a small number of attention heads during inference.",
+      "ITI raised the truthfulness of Alpaca on TruthfulQA from 32.5% to 65.1%.",
+      "Intervention strength controls a trade-off between truthfulness and helpfulness, and the truthful directions can be located with only a few hundred labeled examples, which makes the method data-efficient."]},
+    {"key": "tian2023", "title": "Fine-tuning Language Models for Factuality", "authors": "Tian et al.", "year": 2023, "url": "https://arxiv.org/abs/2311.08401", "family": "training", "study_type": "method", "passages": [
+      "The authors fine-tune models with Direct Preference Optimization on automatically built factuality preference rankings, derived either from consistency with an external knowledge base or from the model's own confidence.",
+      "Compared with RLHF and factuality-targeted decoding, this reduced the factual error rate of a 7B Llama-2 model by 58% on biographies and by 40% on medical questions.",
+      "The reference-free variant that uses model confidence still improved factuality, so the approach can work without a curated knowledge base."]},
+    {"key": "gekhman2024", "title": "Does Fine-Tuning LLMs on New Knowledge Encourage Hallucinations?", "authors": "Gekhman et al.", "year": 2024, "url": "https://arxiv.org/abs/2405.05904", "family": "training", "study_type": "analysis", "passages": [
+      "In a controlled closed-book QA setup, the study varies the share of fine-tuning examples that introduce knowledge the model did not acquire in pretraining.",
+      "Models learn fine-tuning examples with new knowledge much more slowly than examples consistent with what they already know, and as those examples are eventually learned, the tendency to hallucinate increases linearly.",
+      "The authors conclude that models mostly acquire factual knowledge during pretraining while fine-tuning teaches them to use it, and that early stopping reduces the hallucination risk from new-knowledge examples."]},
+    {"key": "lin2021", "title": "TruthfulQA: Measuring How Models Mimic Human Falsehoods", "authors": "Lin, Hilton & Evans", "year": 2021, "url": "https://arxiv.org/abs/2109.07958", "family": "measurement", "study_type": "evaluation", "passages": [
+      "TruthfulQA is a benchmark of 817 questions in 38 categories, written so that some humans would answer falsely because of common misconceptions.",
+      "The best model tested was truthful on 58% of questions, while humans were truthful on 94%.",
+      "Larger models were generally less truthful because they imitate popular falsehoods more effectively; the authors argue that scaling alone is less promising for truthfulness than fine-tuning with objectives other than imitating web text."]},
+    {"key": "min2023", "title": "FActScore: Fine-grained Atomic Evaluation of Factual Precision in Long Form Text Generation", "authors": "Min et al.", "year": 2023, "url": "https://arxiv.org/abs/2305.14251", "family": "measurement", "study_type": "evaluation", "passages": [
+      "FActScore breaks a long generation into atomic facts and computes the percentage that a reliable knowledge source supports, a finer-grained measure than judging whole outputs as true or false.",
+      "In human evaluation of generated biographies, ChatGPT reached a FActScore of only 58%, and the retrieval-backed PerplexityAI 71%, showing that strong commercial systems still produce many unsupported facts.",
+      "An automated estimator that uses retrieval and a strong language model approximates human FActScore with an error rate below 2%, which makes large-scale factuality evaluation practical."]},
+    {"key": "gao2023", "title": "Enabling Large Language Models to Generate Text with Citations", "authors": "Gao et al.", "year": 2023, "url": "https://arxiv.org/abs/2305.14627", "family": "measurement", "study_type": "evaluation", "passages": [
+      "ALCE is a benchmark for generating answers with citations to retrieved passages, with automatic metrics for fluency, correctness and citation quality that correlate with human judgments.",
+      "Even the best models tested lacked complete citation support for about half of their generations on the ELI5 dataset.",
+      "The authors point to better retrievers, long-context models and better synthesis across multiple passages as directions for improving citation quality."]},
+    {"key": "kalai2023", "title": "Calibrated Language Models Must Hallucinate", "authors": "Kalai & Vempala", "year": 2023, "url": "https://arxiv.org/abs/2311.14648", "family": "framing", "study_type": "theory", "passages": [
+      "The paper shows a statistical lower bound on the rate at which calibrated pretrained language models hallucinate arbitrary facts whose truth cannot be determined from the training data.",
+      "For such facts the hallucination rate is roughly bounded below by the fraction of facts that appear exactly once in the training data, a Good-Turing style estimate.",
+      "The bound concerns arbitrary facts such as rare references or biographical details, not systematic facts like arithmetic, which suggests post-training or other methods are needed to reduce hallucination of rare facts."]},
+    {"key": "ji2023", "title": "Survey of Hallucination in Natural Language Generation", "authors": "Ji et al.", "year": 2023, "url": "https://arxiv.org/abs/2202.03629", "family": "framing", "study_type": "survey", "passages": [
+      "The survey divides hallucination into intrinsic hallucination, where output contradicts the source, and extrinsic hallucination, where output cannot be verified from the source.",
+      "Contributing causes include data problems such as source-reference divergence and modeling problems such as imperfect representation learning, erroneous decoding and exposure bias.",
+      "Mitigation methods fall into data-related methods, such as building faithful datasets and cleaning data, and modeling and inference methods, such as architecture changes, training objectives and post-processing."]}
+  ]
+}
