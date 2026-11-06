@@ -116,6 +116,7 @@ class Evidence:
     label: str            # passage label, e.g. "P3"
     sentence: str         # the best-matching source sentence within it
     score: NLIScore
+    paper_key: str = ""
 
 
 @dataclass
@@ -153,14 +154,16 @@ def best_support(claim: str, passages: Sequence[RetrievedPassage], scorer: Score
     best_i = max(range(len(units)), key=lambda i: (scores[i].entailment, -scores[i].contradiction))
     worst_c = max(range(len(units)), key=lambda i: scores[i].contradiction)
     i = best_i
-    if scores[worst_c].contradiction >= scorer.contradicted_at and scores[best_i].entailment < scorer.partial_at:
-        i = worst_c  # nothing supports it and something contradicts it: show the contradiction
+    c = scores[worst_c].contradiction
+    if c >= scorer.contradicted_at and c > scores[best_i].entailment:
+        i = worst_c  # a passage contradicts it more firmly than any passage supports it
     label, text = units[i]
     if text == next(r.passage.text for r in passages if r.label == label):
         # Whole passage won; point at its closest single sentence for display.
         sents = split_sentences(text)
         text = max(sents, key=lambda s: support_overlap(claim, s))
-    return Evidence(label=label, sentence=text, score=scores[i])
+    paper_key = next(r.paper.key for r in passages if r.label == label)
+    return Evidence(label=label, sentence=text, score=scores[i], paper_key=paper_key)
 
 
 def highlight_text(text: str, retrieved: Sequence[RetrievedPassage], scorer: Scorer,
