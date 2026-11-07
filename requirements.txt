@@ -17,7 +17,7 @@ transformers>=4.44
 torch>=2.3
 
 # App
-streamlit>=1.38
+streamlit>=1.50
 
 # Dev
 pytest>=8.2

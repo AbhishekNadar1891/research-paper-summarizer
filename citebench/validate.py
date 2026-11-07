@@ -157,7 +157,7 @@ def validate(answer: Answer, retrieved: list[RetrievedPassage], *, weak_threshol
         labels = _INLINE.findall(sentence)
         for label in dict.fromkeys(labels):
             ck.cite("summary", label, sentence)
-        if not labels and len(tokenize(sentence)) >= 6 and answer.grounded:
+        if not labels and len(tokenize(sentence)) >= 6 and answer.grounded and answer.mode != "extractive":
             rep.issues.append(Issue(IssueKind.UNCITED, "summary",
                                     f'Summary sentence has no citation: "{sentence[:80]}"'))
 

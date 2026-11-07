@@ -8,5 +8,5 @@
 - [x] 6. Truth highlighter: sentence-level NLI support scores
 - [x] 7. With docs vs. without docs: closed-book answer compared claim by claim
 - [x] 8. Reviewer 2: critique-and-revise pass
-- [ ] 9. Streamlit app
+- [x] 9. Streamlit app
 - [ ] 10. README: architecture diagram, screenshots, usage

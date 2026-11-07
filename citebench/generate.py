@@ -178,9 +178,11 @@ def extractive_answer(question: str, retrieved: list[RetrievedPassage]) -> Answe
                                       why=f'{n} paper{"s" if n > 1 else ""} in the "{label}" group were retrieved.'))
 
     methods = [FAMILY_CLAIMS[f][0].lower() for f in groups if f not in (Family.MEASUREMENT, Family.FRAMING)]
-    lead = " ".join(f"[{f.citations[0]}]" for f in findings[:3])
-    summary = (f"The retrieved papers cover {len(methods)} kinds of approach: {', '.join(methods)}. "
-               f"The closest matches are {lead}." if methods else f"The closest matches are {lead}.")
+    top = findings[0]
+    overview = (f"The retrieved papers cover {len(methods)} kinds of approach: {', '.join(methods)}. "
+                if methods else "")
+    # Every summary sentence is either a meta overview (uncited) or a quoted, cited finding.
+    summary = f"{overview}{top.finding} [{top.citations[0]}]"
     return Answer(question=question, summary=summary, findings=findings, evidence=evidence,
                   gaps=["Offline mode groups papers by approach type; it does not compare effect sizes "
                         "or check whether studies used comparable setups."],
