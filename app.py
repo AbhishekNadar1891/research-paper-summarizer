@@ -103,8 +103,9 @@ def legend() -> str:
 # --------------------------------------------------------------------------
 with st.sidebar:
     st.header("Settings")
-    key_in = st.text_input("Anthropic API key", type="password",
-                           help="Optional. Kept in this browser session only. Without a key the app runs offline "
+    key_in = st.text_input("Anthropic API key (optional)", type="password",
+                           help="Kept in this browser session only. To use a free local model instead, set "
+                                "CITEBENCH_PROVIDER=ollama in .env. With no LLM the app runs offline "
                                 "(extractive answers, no memory-only comparison).")
     if key_in and key_in != st.session_state.get("api_key"):
         from citebench.llm import ClaudeLLM
@@ -120,7 +121,7 @@ with st.sidebar:
     pipe = get_pipeline()
     st.divider()
     st.caption(
-        f"**LLM:** {'Claude (' + getattr(pipe.llm, 'model', '') + ')' if pipe.llm else 'offline (extractive)'}  \n"
+        f"**LLM:** {getattr(pipe.llm, 'model', 'configured') if pipe.llm else 'offline (extractive)'}  \n"
         f"**Search:** {pipe.retriever.mode}  \n"
         f"**Papers:** {len(pipe.collection)} · {len(pipe.collection.passages)} passages"
     )
@@ -163,7 +164,7 @@ tab_answer, tab_compare, tab_review, tab_lib = st.tabs(
 with tab_answer:
     left, right = st.columns([1.45, 1], gap="large")
     with left:
-        mode = "Claude" if result.answer.mode == "llm" else "Extractive (offline)"
+        mode = getattr(pipe.llm, "model", "LLM") if result.answer.mode == "llm" else "Extractive (offline)"
         st.subheader("Answer")
         st.caption(f"{mode} · hover a sentence to see its best evidence, hover a [P#] to read the passage")
         if result.highlights:
@@ -239,7 +240,8 @@ with tab_answer:
 with tab_compare:
     cmp = result.comparison
     if not result.llm_used:
-        st.info("This view needs Claude: add an Anthropic API key in the sidebar. It asks the same question "
+        st.info("This view needs an LLM: set CITEBENCH_PROVIDER=ollama in .env for a free local model, or add an "
+                "Anthropic API key in the sidebar. It asks the same question "
                 "with no documents, then checks every claim of that memory-only answer against the papers.")
     elif cmp is None:
         st.info("Turn on “With vs. without docs” in the sidebar and search again.")

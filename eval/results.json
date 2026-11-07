@@ -216,9 +216,10 @@
     "scorer": "lexical-overlap"
   },
   "meta": {
-    "date": "2026-11-07 08:32 UTC",
+    "tag": "",
+    "date": "2026-11-07 11:01 UTC",
     "python": "3.13.18",
-    "runtime_s": 0.66,
+    "runtime_s": 0.79,
     "papers": 17,
     "passages": 51,
     "questions": 15

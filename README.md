@@ -68,15 +68,25 @@ git clone https://github.com/AbhishekNadar1891/research-paper-summarizer
 cd research-paper-summarizer
 python -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-cp .env.example .env          # optional: add ANTHROPIC_API_KEY for LLM answers
+cp .env.example .env          # choose an LLM (see below), or leave it for offline mode
 streamlit run app.py
 ```
 
-You can also paste an API key into the app's sidebar for one session. On the first run, the embedding model (`BAAI/bge-small-en-v1.5`) and NLI model (`cross-encoder/nli-deberta-v3-small`) download from Hugging Face. If they can't load, the app falls back to BM25-only search and a lexical scorer.
+### Choosing an LLM
+
+| Option | Cost | Setup in `.env` |
+|---|---|---|
+| **Ollama (local)** | Free, no key, runs on your GPU/CPU | Install [Ollama](https://ollama.com), run `ollama pull qwen2.5:7b`, set `CITEBENCH_PROVIDER=ollama` |
+| **Claude** | Paid API | `CITEBENCH_PROVIDER=anthropic`, `ANTHROPIC_API_KEY=...` |
+| **OpenAI-compatible** (Groq, OpenRouter, DeepSeek, …) | Free tiers on some | `CITEBENCH_PROVIDER=openai_compatible`, `CITEBENCH_BASE_URL`, `CITEBENCH_API_KEY`, `CITEBENCH_MODEL` |
+
+A 7B model such as `qwen2.5:7b` needs about 5 GB of GPU memory, or 8 GB+ of RAM on CPU. Citebench raises Ollama's context window to 8k tokens so a dozen passages fit, and asks every provider for JSON output. You can also paste a Claude API key into the app's sidebar for one session. On the first run, the embedding model (`BAAI/bge-small-en-v1.5`) and NLI model (`cross-encoder/nli-deberta-v3-small`) download from Hugging Face. If they can't load, the app falls back to BM25-only search and a lexical scorer.
 
 ```bash
-pytest                       # 73 tests, no network or API key needed
-python eval/run_eval.py      # regenerates docs/EVALUATION.md
+pytest                                    # 78 tests, no network or API key needed
+python eval/run_eval.py                   # retrieval + planted-error checks -> docs/EVALUATION.md
+python eval/run_eval.py --embeddings --nli-model --tag models   # same with the real models
+python eval/run_llm_eval.py --embeddings --nli-model            # full pipeline with your LLM -> docs/EVALUATION_LLM.md
 ```
 
 ### Use it from Python
@@ -112,7 +122,7 @@ print(result.highlights.counts())       # supported / partial / unsupported ...
 - The starter collection is small (17 papers, 51 passages), and its passages are paraphrased summaries, not the papers' own text.
 - Retrieval questions and relevance labels were written by the project authors.
 - The lexical fallback can't detect paraphrases that change meaning. The NLI model is better but still weak on numbers, which is why numbers are checked separately.
-- LLM answer quality and the with-vs-without comparison have only been tested with a simulated LLM so far.
+- LLM-mode results depend on the model; `eval/run_llm_eval.py` measures them for whichever model you configure.
 - Added papers live in the app session. Use `Collection.save()` to keep a collection on disk.
 
 ## Project layout
@@ -122,7 +132,7 @@ app.py                  Streamlit app
 citebench/
   ingest.py             PDF / arXiv / JSON loading, passage chunking
   retrieval.py          BM25 + embeddings, RRF, per-paper diversity
-  llm.py                Claude wrapper, tolerant JSON parsing
+  llm.py                Claude / Ollama / OpenAI-compatible clients, tolerant JSON parsing
   generate.py           grounded answer + offline extractive fallback
   validate.py           citation validator
   nli.py                truth highlighter
