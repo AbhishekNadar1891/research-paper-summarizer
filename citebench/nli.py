@@ -21,7 +21,7 @@ import numpy as np
 from .config import settings
 from .ingest import split_sentences
 from .models import Answer, RetrievedPassage
-from .validate import support_overlap
+from .validate import missing_numbers, support_overlap
 
 log = logging.getLogger(__name__)
 _INLINE = re.compile(r"\[(P\d+)\]")
@@ -85,7 +85,7 @@ class LexicalScorer:
         out = []
         for premise, hypothesis in pairs:
             ent = support_overlap(hypothesis, premise)
-            neg_mismatch = bool(_NEGATION.search(premise)) != bool(_NEGATION.search(hypothesis))
+            neg_mismatch = len(_NEGATION.findall(premise)) != len(_NEGATION.findall(hypothesis))
             contra = 0.6 if (neg_mismatch and ent >= 0.5) else 0.0
             if contra:
                 ent = min(ent, 0.2)
@@ -181,6 +181,10 @@ def highlight_text(text: str, retrieved: Sequence[RetrievedPassage], scorer: Sco
             ev = best_support(clean, cited, scorer)
             if ev:
                 hs.best, hs.entailment, hs.support = ev, ev.score.entailment, classify(ev.score, scorer)
+                # NLI models (and word overlap) are weak on figures: a number absent from every
+                # cited passage caps the label at "partial".
+                if hs.support is Support.SUPPORTED and missing_numbers(clean, " ".join(r.passage.text for r in cited)):
+                    hs.support = Support.PARTIAL
         elif cites:
             hs.support = Support.UNSUPPORTED  # cites only labels that don't exist
         out.append(hs)

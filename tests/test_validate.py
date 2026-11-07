@@ -140,3 +140,19 @@ def test_report_summary_shape(res):
     rep = validate(Answer(question=Q, summary="X happens [P1]. Y happens [P50]."), res)
     s = rep.summary()
     assert s["total"] == 2 and s["invented"] == 1
+
+
+def test_changed_number_is_flagged(collection):
+    from citebench.models import RetrievedPassage
+    p = next(x for x in collection.passages if x.paper_key == "lin2021" and x.index == 1)
+    r = RetrievedPassage(label="P1", passage=p, paper=collection.papers["lin2021"], score=1.0)
+    good = Answer(question=Q, summary="", findings=[Finding("lin2021", "The best model was truthful on 58% of questions.", ["P1"])])
+    bad = Answer(question=Q, summary="Humans were truthful on 49% [P1].",
+                 findings=[Finding("lin2021", "The best model was truthful on 85% of questions.", ["P1"])])
+    assert IssueKind.NUMBER not in kinds(validate(good, [r]))
+    assert kinds(validate(bad, [r])).count(IssueKind.NUMBER) == 2
+
+
+def test_numbers_ignore_citation_labels():
+    from citebench.validate import numbers_in
+    assert numbers_in("Rose from 47.50% to 14.5% [P3] in 2023") == {"47.5", "14.5", "2023"}

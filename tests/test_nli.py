@@ -116,3 +116,15 @@ def test_highlight_answer_flags_unsupported_finding(res):
                 citations=[lbl])])
     h = highlight_answer(ans, res, scorer=LexicalScorer())
     assert h.findings[res[0].paper.key][0].support is Support.UNSUPPORTED
+
+
+def test_changed_number_is_not_fully_supported(pinned):
+    out = highlight_text("Detection reached about 99% recall [P1].", pinned, LexicalScorer())
+    assert out[0].support is not Support.SUPPORTED
+
+
+def test_negation_count_mismatch_with_existing_negation():
+    s = LexicalScorer()
+    premise = "Without retrieved knowledge, DoLa improved truthfulness on TruthfulQA."
+    [flip] = s.score([(premise, "Without retrieved knowledge, DoLa did not improve truthfulness on TruthfulQA.")])
+    assert flip.contradiction > flip.entailment

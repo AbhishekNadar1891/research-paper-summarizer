@@ -10,6 +10,7 @@ Checks
   misattributed  finding for paper A cites a passage from paper B  (error)
   unknown_paper  finding about a paper that was not retrieved      (error)
   weak           claim shares little wording with its passage      (warning)
+  number         claim states a number its cited passages don't contain (warning)
   uncited        a finding, or a factual summary sentence, has no citation (warning)
   downgraded     evidence strength above what its distinct papers allow (warning, auto-fixed)
 """
@@ -34,6 +35,7 @@ class IssueKind(str, Enum):
     WEAK = "weak"
     UNCITED = "uncited"
     DOWNGRADED = "downgraded"
+    NUMBER = "number"
 
     @property
     def is_error(self) -> bool:
@@ -105,6 +107,21 @@ class ValidationReport:
                 "issues": len(self.issues)}
 
 
+_NUM = re.compile(r"(?<![\w.])\d+(?:\.\d+)?")
+
+
+def numbers_in(text: str) -> set[str]:
+    """Numbers in text, normalised ("58.0" -> "58"). Citation labels like [P3] are ignored."""
+    out = set()
+    for n in _NUM.findall(_INLINE_ANY.sub("", text)):
+        out.add(n.rstrip("0").rstrip(".") if "." in n else n)
+    return out
+
+
+def missing_numbers(claim: str, passages_text: str) -> set[str]:
+    return numbers_in(claim) - numbers_in(passages_text)
+
+
 def support_overlap(claim: str, passage: str) -> float:
     """Share of the claim's content words that also appear in the passage (0..1)."""
     claim_terms = set(tokenize(_INLINE_ANY.sub("", claim)))
@@ -146,6 +163,18 @@ class _Checker:
         return True
 
 
+def _check_numbers(ck: _Checker, location: str, claim: str, labels: list[str], paper_key: str | None = None) -> None:
+    texts = [ck.by_label[lbl].passage.text for lbl in labels
+             if lbl in ck.by_label and (paper_key is None or ck.by_label[lbl].paper.key == paper_key)]
+    if not texts:
+        return
+    missing = missing_numbers(claim, " ".join(texts))
+    if missing:
+        ck.report.issues.append(Issue(IssueKind.NUMBER, location,
+                                      f"States {', '.join(sorted(missing))}, which the cited passage"
+                                      f"{'s do' if len(texts) > 1 else ' does'} not contain; check the figure."))
+
+
 def validate(answer: Answer, retrieved: list[RetrievedPassage], *, weak_threshold: float = 0.2,
              fix_strength: bool = True) -> ValidationReport:
     """Check all citations in `answer`. With fix_strength, inflated evidence ratings are lowered in place."""
@@ -157,6 +186,7 @@ def validate(answer: Answer, retrieved: list[RetrievedPassage], *, weak_threshol
         labels = _INLINE.findall(sentence)
         for label in dict.fromkeys(labels):
             ck.cite("summary", label, sentence)
+        _check_numbers(ck, "summary", sentence, labels)
         if not labels and len(tokenize(sentence)) >= 6 and answer.grounded and answer.mode != "extractive":
             rep.issues.append(Issue(IssueKind.UNCITED, "summary",
                                     f'Summary sentence has no citation: "{sentence[:80]}"'))
@@ -171,6 +201,7 @@ def validate(answer: Answer, retrieved: list[RetrievedPassage], *, weak_threshol
             rep.issues.append(Issue(IssueKind.UNCITED, loc, "Finding has no citation."))
         for label in f.citations:
             ck.cite(loc, label, f.finding, paper_key=f.paper_key if f.paper_key in ck.paper_keys else None)
+        _check_numbers(ck, loc, f.finding, f.citations, f.paper_key if f.paper_key in ck.paper_keys else None)
 
     # Cross-paper evidence: strength must match the number of distinct papers actually cited.
     for i, e in enumerate(answer.evidence):

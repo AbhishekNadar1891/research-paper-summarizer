@@ -1,0 +1,226 @@
+{
+  "retrieval": {
+    "bm25_full": {
+      "recall@3": 0.611,
+      "recall@5": 0.746,
+      "recall@12": 0.874,
+      "mrr": 0.941,
+      "hit@1": 0.933,
+      "avg_distinct_papers@12": 11.13,
+      "per_question": [
+        {
+          "q": "What approaches have researchers used to reduce hallucinations in language models?",
+          "first_relevant_rank": 1,
+          "recall@3": 0.333,
+          "recall@5": 0.444,
+          "recall@12": 0.778,
+          "distinct_papers@12": 12
+        },
+        {
+          "q": "How can hallucinations be detected without access to the model's internals?",
+          "first_relevant_rank": 1,
+          "recall@3": 0.667,
+          "recall@5": 0.667,
+          "recall@12": 0.667,
+          "distinct_papers@12": 12
+        },
+        {
+          "q": "Does retrieval augmentation improve factuality?",
+          "first_relevant_rank": 1,
+          "recall@3": 0.5,
+          "recall@5": 0.75,
+          "recall@12": 1.0,
+          "distinct_papers@12": 12
+        },
+        {
+          "q": "How accurate are LLM citations?",
+          "first_relevant_rank": 1,
+          "recall@3": 1.0,
+          "recall@5": 1.0,
+          "recall@12": 1.0,
+          "distinct_papers@12": 3
+        },
+        {
+          "q": "Can fine-tuning make hallucination worse?",
+          "first_relevant_rank": 1,
+          "recall@3": 0.5,
+          "recall@5": 1.0,
+          "recall@12": 1.0,
+          "distinct_papers@12": 12
+        },
+        {
+          "q": "Do larger models hallucinate less?",
+          "first_relevant_rank": 1,
+          "recall@3": 1.0,
+          "recall@5": 1.0,
+          "recall@12": 1.0,
+          "distinct_papers@12": 12
+        },
+        {
+          "q": "How do you measure factual precision in long-form generation?",
+          "first_relevant_rank": 1,
+          "recall@3": 0.5,
+          "recall@5": 0.5,
+          "recall@12": 0.5,
+          "distinct_papers@12": 11
+        },
+        {
+          "q": "Can decoding strategies improve truthfulness without extra training?",
+          "first_relevant_rank": 1,
+          "recall@3": 0.5,
+          "recall@5": 1.0,
+          "recall@12": 1.0,
+          "distinct_papers@12": 12
+        },
+        {
+          "q": "Is hallucination theoretically unavoidable?",
+          "first_relevant_rank": 9,
+          "recall@3": 0.0,
+          "recall@5": 0.0,
+          "recall@12": 1.0,
+          "distinct_papers@12": 12
+        },
+        {
+          "q": "Can a model check and revise its own answers to fix errors?",
+          "first_relevant_rank": 1,
+          "recall@3": 0.667,
+          "recall@5": 0.667,
+          "recall@12": 1.0,
+          "distinct_papers@12": 12
+        },
+        {
+          "q": "Do language models know when they don't know the answer?",
+          "first_relevant_rank": 1,
+          "recall@3": 0.667,
+          "recall@5": 0.667,
+          "recall@12": 0.667,
+          "distinct_papers@12": 12
+        },
+        {
+          "q": "What benchmarks evaluate truthfulness of language models?",
+          "first_relevant_rank": 1,
+          "recall@3": 0.333,
+          "recall@5": 1.0,
+          "recall@12": 1.0,
+          "distinct_papers@12": 12
+        },
+        {
+          "q": "How are types and causes of hallucination categorised?",
+          "first_relevant_rank": 1,
+          "recall@3": 0.5,
+          "recall@5": 0.5,
+          "recall@12": 0.5,
+          "distinct_papers@12": 9
+        },
+        {
+          "q": "Can preference optimisation be used to train more factual models?",
+          "first_relevant_rank": 1,
+          "recall@3": 1.0,
+          "recall@5": 1.0,
+          "recall@12": 1.0,
+          "distinct_papers@12": 12
+        },
+        {
+          "q": "How can knowledge in a language model be updated without retraining?",
+          "first_relevant_rank": 1,
+          "recall@3": 1.0,
+          "recall@5": 1.0,
+          "recall@12": 1.0,
+          "distinct_papers@12": 12
+        }
+      ]
+    },
+    "ablation_no_synonyms": {
+      "recall@3": 0.694,
+      "recall@5": 0.791,
+      "recall@12": 0.852,
+      "mrr": 0.933,
+      "hit@1": 0.867,
+      "avg_distinct_papers@12": 9.53
+    },
+    "ablation_no_diversity": {
+      "recall@3": 0.611,
+      "recall@5": 0.746,
+      "recall@12": 0.769,
+      "mrr": 0.933,
+      "hit@1": 0.933,
+      "avg_distinct_papers@12": 7.13
+    }
+  },
+  "citation_checks": {
+    "planted_errors": {
+      "invented_label": {
+        "cases": 167,
+        "validator": 167,
+        "highlighter": 167,
+        "either": 167,
+        "validator_rate": 1.0,
+        "highlighter_rate": 1.0,
+        "either_rate": 1.0
+      },
+      "wrong_paper_label": {
+        "cases": 167,
+        "validator": 167,
+        "highlighter": 167,
+        "either": 167,
+        "validator_rate": 1.0,
+        "highlighter_rate": 1.0,
+        "either_rate": 1.0
+      },
+      "unrelated_claim": {
+        "cases": 167,
+        "validator": 150,
+        "highlighter": 167,
+        "either": 167,
+        "validator_rate": 0.898,
+        "highlighter_rate": 1.0,
+        "either_rate": 1.0
+      },
+      "negated_claim": {
+        "cases": 134,
+        "validator": 0,
+        "highlighter": 88,
+        "either": 88,
+        "validator_rate": 0.0,
+        "highlighter_rate": 0.657,
+        "either_rate": 0.657
+      },
+      "changed_number": {
+        "cases": 55,
+        "validator": 0,
+        "highlighter": 0,
+        "either": 0,
+        "validator_rate": 0.0,
+        "highlighter_rate": 0.0,
+        "either_rate": 0.0
+      },
+      "inflated_strength": {
+        "cases": 15,
+        "validator": 15,
+        "highlighter": 0,
+        "either": 15,
+        "validator_rate": 1.0,
+        "highlighter_rate": 0.0,
+        "either_rate": 1.0
+      }
+    },
+    "overall_detection_rate": 0.857,
+    "total_planted_errors": 705,
+    "clean": {
+      "answers": 15,
+      "answers_with_error_flags": 0,
+      "findings": 167,
+      "validator_false_alarm_rate": 0.0,
+      "highlighter_false_alarm_rate": 0.0
+    },
+    "scorer": "lexical-overlap"
+  },
+  "meta": {
+    "date": "2026-11-07 08:31 UTC",
+    "python": "3.13.18",
+    "runtime_s": 0.59,
+    "papers": 17,
+    "passages": 51,
+    "questions": 15
+  }
+}

@@ -127,6 +127,7 @@ _ISSUE_TO_NOTE = {
     IssueKind.WEAK: NoteKind.BAD_CITATION,
     IssueKind.UNCITED: NoteKind.OVERCLAIM,
     IssueKind.DOWNGRADED: NoteKind.INFLATED_STRENGTH,
+    IssueKind.NUMBER: NoteKind.MISREAD_NUMBER,
 }
 
 
