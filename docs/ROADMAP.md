@@ -9,4 +9,5 @@
 - [x] 7. With docs vs. without docs: closed-book answer compared claim by claim
 - [x] 8. Reviewer 2: critique-and-revise pass
 - [x] 9. Streamlit app
-- [ ] 10. README: architecture diagram, screenshots, usage
+- [x] 10. README: architecture diagram, screenshots, usage
+- [x] Offline evaluation: retrieval metrics and planted-error detection (docs/EVALUATION.md)
