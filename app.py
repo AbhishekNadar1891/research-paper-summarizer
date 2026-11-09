@@ -230,6 +230,21 @@ with tab_answer:
         st.subheader("Retrieved passages")
         st.caption(f"{len(result.retrieved)} passages from {len({r.paper.key for r in result.retrieved})} papers · "
                    f"{result.retrieval_mode} search")
+        if not result.retrieved:
+            # Shown only when a search finds nothing, to tell "no relevant papers" apart from a broken index.
+            import platform
+
+            import numpy as np
+            from citebench.retrieval import tokenize
+            with st.expander("Diagnostics: why no passages?", expanded=True):
+                bm = pipe.retriever.bm25.scores(result.question)
+                st.code(
+                    f"question: {result.question!r}\n"
+                    f"tokens: {tokenize(result.question)}\n"
+                    f"passages indexed: {len(pipe.collection.passages)}\n"
+                    f"bm25 positive scores: {int((bm > 0).sum())} · max {float(bm.max()) if len(bm) else 0:.3f}\n"
+                    f"python {platform.python_version()} · numpy {np.__version__} · streamlit {st.__version__}",
+                    language="text")
         for r in result.retrieved:
             link = f'<a href="{esc(r.paper.url)}" target="_blank">{esc(r.paper.title)} ↗</a>' if r.paper.url \
                 else esc(r.paper.title)
