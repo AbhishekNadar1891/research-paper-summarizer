@@ -39,27 +39,41 @@ The design follows one rule: **the LLM is anchored to the documents but never tr
 
 ## Results
 
-From `python eval/run_eval.py`, which needs no API key or model downloads. Full report: [docs/EVALUATION.md](docs/EVALUATION.md).
+All numbers come from scripts in `eval/` and are written up in [docs/EVALUATION.md](docs/EVALUATION.md) (retrieval and planted errors), [docs/EVALUATION_models.md](docs/EVALUATION_models.md) (same, with the real embedding and NLI models) and [docs/EVALUATION_LLM.md](docs/EVALUATION_LLM.md) (full pipeline with a real LLM, plus a hand audit).
 
-**Retrieval** (15 hand-labelled questions, BM25 mode):
+### Full pipeline with Qwen 2.5 7B (free, local via Ollama, RTX 4060 laptop)
 
-| Recall@5 | Recall@12 | MRR | Hit@1 | Distinct papers in top 12 |
-|---|---|---|---|---|
-| 75% | 87% | 0.94 | 93% | 11.1 (7.1 without per-paper diversity) |
+15 questions, about 19 s each.
 
-**Citation checking** (705 errors planted in correct answers):
-
-| Planted error | Caught |
+| Measure | Result |
 |---|---|
-| Made-up citation | 100% |
-| Citation to another paper's passage | 100% |
-| Claim from a different paper | 100% |
-| Negated claim ("reduced" → "did not reduce") | 100% |
-| Changed number | 98% |
-| Single paper rated "strong" | 100% |
-| **False alarms on correct findings** | **0%** |
+| Citations Qwen wrote | 71 |
+| Made up, or pointing at another paper's passage | **0** |
+| Evidence ratings stronger than the cited papers allow (lowered automatically) | 9 |
+| Cited sentences actually supported by their passages (hand audit of 38) | **82%** |
+| Real problems in those sentences (overclaims, off-topic citations) caught by the truth highlighter | **7 of 7** |
+| Correct sentences the highlighter wrongly flagged | 35% (48% before a fix made after the audit) |
+| Memory-only claims citing a specific study or figure, none backed by the papers | 16 of 76 |
 
-The first evaluation run caught 86%. It missed every changed number and a third of negations, which led to the number check and a better negation check. Because those checks were designed after seeing the planted errors, treat the current numbers as optimistic. Real LLM mistakes are subtler, and LLM-mode answer quality hasn't been evaluated yet.
+Grounding works: with the papers in front of it, Qwen made no made-up citations. From memory, it credited invented findings to real authors, for example a 75% "LLM citation accuracy" figure attributed to the GPT-3 paper. The highlighter catches the real problems but is too strict with a small NLI model. Reviewer 2 running on the same 7B model accepted every answer, so the deterministic checks do the useful work.
+
+### Retrieval (15 hand-labelled questions)
+
+| Setting | Recall@5 | Recall@12 | MRR | Distinct papers in top 12 |
+|---|---|---|---|---|
+| Hybrid: BM25 + bge-small embeddings | 76% | **96%** | 0.93 | 12.0 |
+| BM25 only | 75% | 87% | 0.94 | 11.1 |
+| BM25 without per-paper diversity | 75% | 77% | 0.93 | 7.1 |
+
+### Citation checks on 705 planted errors
+
+Made-up citations, wrong-paper citations, unrelated claims and negated claims are all caught 100% of the time; changed numbers 98–100%; single-paper "strong" ratings 100%. There were 0% false alarms on correct findings, though those were copied word for word from the passages, which is the easy case. The first run caught 86%, and the number and negation checks were added in response. These checks were designed after seeing the planted errors, so treat these numbers as optimistic. The hand audit above is the more realistic measure.
+
+**What evaluation changed.** Each real-model run surfaced a problem the synthetic tests had missed:
+- Paper names not matched to papers: relevant papers in answers went from 10% to 43%.
+- Unrelated passages counted as "contradictions": 33 of 79 memory-only claims fell to 4.
+- Reference years like "(2024)" flagged as wrong numbers.
+- Close restatements rejected by the NLI model.
 
 ## Quick start
 
@@ -83,10 +97,11 @@ streamlit run app.py
 A 7B model such as `qwen2.5:7b` needs about 5 GB of GPU memory, or 8 GB+ of RAM on CPU. Citebench raises Ollama's context window to 8k tokens so a dozen passages fit, and asks every provider for JSON output. You can also paste a Claude API key into the app's sidebar for one session. On the first run, the embedding model (`BAAI/bge-small-en-v1.5`) and NLI model (`cross-encoder/nli-deberta-v3-small`) download from Hugging Face. If they can't load, the app falls back to BM25-only search and a lexical scorer.
 
 ```bash
-pytest                                    # 78 tests, no network or API key needed
+pytest                                    # 84 tests, no network or API key needed
 python eval/run_eval.py                   # retrieval + planted-error checks -> docs/EVALUATION.md
 python eval/run_eval.py --embeddings --nli-model --tag models   # same with the real models
 python eval/run_llm_eval.py --embeddings --nli-model            # full pipeline with your LLM -> docs/EVALUATION_LLM.md
+python eval/score_audit.py                                      # highlighter vs the hand audit
 ```
 
 ### Use it from Python
@@ -121,7 +136,8 @@ print(result.highlights.counts())       # supported / partial / unsupported ...
 
 - The starter collection is small (17 papers, 51 passages), and its passages are paraphrased summaries, not the papers' own text.
 - Retrieval questions and relevance labels were written by the project authors.
-- The lexical fallback can't detect paraphrases that change meaning. The NLI model is better but still weak on numbers, which is why numbers are checked separately.
+- The lexical fallback can't detect paraphrases that change meaning. The small NLI model is better but still wrongly flags about a third of correct sentences on real output, and is weak on numbers, which is why numbers are checked separately. A larger NLI model (`CITEBENCH_NLI_MODEL=cross-encoder/nli-deberta-v3-base`) is the obvious next experiment.
+- The hand audit covers 38 sentences from one model, and the judgements were made by an AI (Claude), not a human annotator.
 - LLM-mode results depend on the model; `eval/run_llm_eval.py` measures them for whichever model you configure.
 - Added papers live in the app session. Use `Collection.save()` to keep a collection on disk.
 

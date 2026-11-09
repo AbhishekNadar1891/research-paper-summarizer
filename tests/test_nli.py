@@ -140,3 +140,19 @@ def test_off_topic_passages_are_not_judged(pinned):
     assert best_support("The C4 dataset is used to pretrain language models.", pinned, AlwaysContradicts()) is None
     out = highlight_text("The C4 dataset is used to pretrain language models [P1].", pinned, AlwaysContradicts())
     assert out[0].support is Support.UNSUPPORTED
+
+
+def test_close_restatement_overrides_a_strict_scorer(pinned):
+    class NeverEntails:
+        name = "strict"; supported_at, partial_at, contradicted_at = 0.6, 0.3, 0.5
+        def score(self, pairs):
+            return [NLIScore(0.1, 0.1, 0.8) for _ in pairs]
+    ok = highlight_text("The best model was truthful on 58% of questions while humans were truthful on 94% [P2].",
+                        pinned, NeverEntails())
+    assert ok[0].support is Support.SUPPORTED
+    flipped = highlight_text("The best model was not truthful on 58% of questions while humans were truthful on 94% [P2].",
+                             pinned, NeverEntails())
+    assert flipped[0].support is not Support.SUPPORTED
+    number = highlight_text("The best model was truthful on 68% of questions while humans were truthful on 94% [P2].",
+                            pinned, NeverEntails())
+    assert number[0].support is not Support.SUPPORTED

@@ -1,0 +1,481 @@
+{
+  "about": "Hand judgements of every cited sentence in the third qwen2.5:7b run (eval/results_llm_qwen2-5-7b.json), made by Claude by reading each sentence against the passages it cites. Not a human annotation; spot-check before relying on it.",
+  "results_file": "eval/results_llm_qwen2-5-7b.json",
+  "items": [
+    {
+      "id": 1,
+      "question": "What approaches have researchers used to reduce hallucinations in language models?",
+      "where": "summary",
+      "sentence": "Researchers have employed various methods to reduce hallucinations in language models, including Chain-of-Verification (CoVe), which decreases hallucinations on list-based questions, and DoLa, which improved truthfulness on TruthfulQA by 12 to 17 absolute percentage points.",
+      "citations": [
+        "P1",
+        "P8"
+      ],
+      "auto_label": "contradicted",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 2,
+      "question": "What approaches have researchers used to reduce hallucinations in language models?",
+      "where": "finding:dhuliawala2023",
+      "sentence": "CoVe decreased hallucinations on list-based questions from Wikidata, closed-book MultiSpanQA, and long-form biography generation.",
+      "citations": [
+        "P1"
+      ],
+      "auto_label": "supported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 3,
+      "question": "What approaches have researchers used to reduce hallucinations in language models?",
+      "where": "finding:chuang2023",
+      "sentence": "DoLa improved LLaMA models' truthfulness on TruthfulQA by 12 to 17 absolute percentage points without retrieved knowledge or additional fine-tuning.",
+      "citations": [
+        "P8"
+      ],
+      "auto_label": "supported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 4,
+      "question": "How can hallucinations be detected without access to the model's internals?",
+      "where": "summary",
+      "sentence": "SelfCheckGPT can detect hallucinations without accessing the model's internals by sampling multiple responses and checking for consistency.",
+      "citations": [
+        "P1"
+      ],
+      "auto_label": "supported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 5,
+      "question": "How can hallucinations be detected without access to the model's internals?",
+      "where": "finding:manakul2023",
+      "sentence": "SelfCheckGPT detects hallucinations by sampling several responses and checking for consistency across them.",
+      "citations": [
+        "P1"
+      ],
+      "auto_label": "supported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 6,
+      "question": "Does retrieval augmentation improve factuality?",
+      "where": "summary",
+      "sentence": "Retrieval augmentation can improve factuality, as seen in studies like and.",
+      "citations": [
+        "P1",
+        "P4"
+      ],
+      "auto_label": "unsupported",
+      "hand_label": "unsupported",
+      "note": "P4 (Tian) is not about retrieval; P1 shows SOTA results, not factuality"
+    },
+    {
+      "id": 7,
+      "question": "Does retrieval augmentation improve factuality?",
+      "where": "summary",
+      "sentence": "However, the question of whether it definitively improves factuality across all models remains open, as some papers like suggest that larger models may not necessarily be more truthful.",
+      "citations": [
+        "P9"
+      ],
+      "auto_label": "unsupported",
+      "hand_label": "partly_supported",
+      "note": "P9 supports 'larger models less truthful' but it is not evidence about retrieval"
+    },
+    {
+      "id": 8,
+      "question": "Does retrieval augmentation improve factuality?",
+      "where": "finding:shuster2021",
+      "sentence": "Retrieval augmentation can reduce hallucination in conversation tasks, as seen in the state-of-the-art results achieved by the best retrieval-augmented models.",
+      "citations": [
+        "P1"
+      ],
+      "auto_label": "unsupported",
+      "hand_label": "partly_supported",
+      "note": "cited passage reports SOTA results, not reduced hallucination"
+    },
+    {
+      "id": 9,
+      "question": "Does retrieval augmentation improve factuality?",
+      "where": "finding:tian2023",
+      "sentence": "The reference-free variant of fine-tuning language models for factuality can still improve factuality, indicating that retrieval augmentation can contribute to better factuality.",
+      "citations": [
+        "P4"
+      ],
+      "auto_label": "unsupported",
+      "hand_label": "unsupported",
+      "note": "Tian et al. is factuality fine-tuning, not retrieval augmentation"
+    },
+    {
+      "id": 10,
+      "question": "How accurate are LLM citations?",
+      "where": "summary",
+      "sentence": "The accuracy of LLM citations is a complex issue, with some studies suggesting that larger models may be less truthful, while others propose methods to improve citation quality, such as Chain-of-Verification.",
+      "citations": [
+        "P9",
+        "P10"
+      ],
+      "auto_label": "unsupported",
+      "hand_label": "partly_supported",
+      "note": "CoVe is not a citation-quality method"
+    },
+    {
+      "id": 11,
+      "question": "How accurate are LLM citations?",
+      "where": "summary",
+      "sentence": "The effectiveness of these methods is still being evaluated.",
+      "citations": [
+        "P10"
+      ],
+      "auto_label": "unsupported",
+      "hand_label": "unsupported",
+      "note": "nothing in P10 says effectiveness is still being evaluated"
+    },
+    {
+      "id": 12,
+      "question": "How accurate are LLM citations?",
+      "where": "finding:dhuliawala2023",
+      "sentence": "Chain-of-Verification (CoVe) can reduce hallucination in LLMs by having them draft a response, plan verification questions, answer those questions, and then write a final verified response.",
+      "citations": [
+        "P10"
+      ],
+      "auto_label": "unsupported",
+      "hand_label": "supported",
+      "note": "procedure is in the passage; 'reduces hallucination' is the paper's title"
+    },
+    {
+      "id": 13,
+      "question": "Can fine-tuning make hallucination worse?",
+      "where": "summary",
+      "sentence": "Fine-tuning can potentially make hallucination worse, as suggested by Gekhman et al. (2024), who found that early stopping reduces the risk of hallucinations from new knowledge examples.",
+      "citations": [
+        "P1"
+      ],
+      "auto_label": "unsupported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 14,
+      "question": "Can fine-tuning make hallucination worse?",
+      "where": "finding:gekhman2024",
+      "sentence": "Fine-tuning on new knowledge can increase hallucination risk, but early stopping can mitigate this effect.",
+      "citations": [
+        "P1"
+      ],
+      "auto_label": "partial",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 15,
+      "question": "Do larger models hallucinate less?",
+      "where": "summary",
+      "sentence": "While suggests that larger models are well-calibrated on certain types of questions, shows that inference-time interventions can improve truthfulness, but this does not directly compare model size to hallucination rates.",
+      "citations": [
+        "P5",
+        "P10"
+      ],
+      "auto_label": "unsupported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 16,
+      "question": "Do larger models hallucinate less?",
+      "where": "finding:kadavath2022",
+      "sentence": "Larger language models are well-calibrated on diverse multiple-choice and true/false questions when the questions are presented in a suitable format.",
+      "citations": [
+        "P5"
+      ],
+      "auto_label": "supported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 17,
+      "question": "Do larger models hallucinate less?",
+      "where": "finding:li2023",
+      "sentence": "ITI raised the truthfulness of Alpaca on TruthfulQA from 32.5% to 65.1%.",
+      "citations": [
+        "P10"
+      ],
+      "auto_label": "supported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 18,
+      "question": "How do you measure factual precision in long-form generation?",
+      "where": "summary",
+      "sentence": "Factual precision in long-form generation is measured by breaking down the text into atomic facts and evaluating the percentage of these facts supported by reliable knowledge sources, as seen in the FActScore method.",
+      "citations": [
+        "P1"
+      ],
+      "auto_label": "supported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 19,
+      "question": "How do you measure factual precision in long-form generation?",
+      "where": "finding:min2023",
+      "sentence": "FActScore evaluates factual precision by breaking down long-form text into atomic facts and measuring the percentage of these facts supported by reliable knowledge sources.",
+      "citations": [
+        "P1"
+      ],
+      "auto_label": "supported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 20,
+      "question": "Can decoding strategies improve truthfulness without extra training?",
+      "where": "summary",
+      "sentence": "Decoding strategies can improve truthfulness without extra training, as demonstrated by the DoLa method, which improved LLaMA models' truthfulness on TruthfulQA by 12 to 17 percentage points.",
+      "citations": [
+        "P1"
+      ],
+      "auto_label": "supported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 21,
+      "question": "Can decoding strategies improve truthfulness without extra training?",
+      "where": "finding:chuang2023",
+      "sentence": "The DoLa method improved the truthfulness of LLaMA models on TruthfulQA by 12 to 17 percentage points without requiring additional fine-tuning or training.",
+      "citations": [
+        "P1"
+      ],
+      "auto_label": "unsupported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 22,
+      "question": "Is hallucination theoretically unavoidable?",
+      "where": "summary",
+      "sentence": "The theoretical inevitability of hallucination in language models is suggested by Kalai & Vempala (2023), who argue that the hallucination rate is bounded below by the fraction of facts appearing exactly once in the training data.",
+      "citations": [
+        "P2"
+      ],
+      "auto_label": "unsupported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 23,
+      "question": "Is hallucination theoretically unavoidable?",
+      "where": "finding:kalai2023",
+      "sentence": "The hallucination rate is roughly bounded below by the fraction of facts that appear exactly once in the training data.",
+      "citations": [
+        "P2"
+      ],
+      "auto_label": "supported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 24,
+      "question": "Can a model check and revise its own answers to fix errors?",
+      "where": "summary",
+      "sentence": "Models can estimate the probability of their own answers being true, as seen in, and can be trained to reduce factual errors, as in.",
+      "citations": [
+        "P2",
+        "P3"
+      ],
+      "auto_label": "unsupported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 25,
+      "question": "Can a model check and revise its own answers to fix errors?",
+      "where": "finding:kadavath2022",
+      "sentence": "Models can estimate the probability that their own proposed answer is true, which improves when the model first sees several of its own sampled answers.",
+      "citations": [
+        "P2"
+      ],
+      "auto_label": "supported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 26,
+      "question": "Can a model check and revise its own answers to fix errors?",
+      "where": "finding:tian2023",
+      "sentence": "Fine-tuning language models for factuality can reduce factual error rates, as seen in a 7B Llama-2 model with a 58% reduction on biographies and 40% on medical questions.",
+      "citations": [
+        "P3"
+      ],
+      "auto_label": "unsupported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 27,
+      "question": "Do language models know when they don't know the answer?",
+      "where": "summary",
+      "sentence": "Language models can be trained to predict their own knowledge, as seen in.",
+      "citations": [
+        "P1"
+      ],
+      "auto_label": "unsupported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 28,
+      "question": "Do language models know when they don't know the answer?",
+      "where": "summary",
+      "sentence": "However, the models may still hallucinate facts, as shown in.",
+      "citations": [
+        "P2"
+      ],
+      "auto_label": "unsupported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 29,
+      "question": "Do language models know when they don't know the answer?",
+      "where": "finding:kadavath2022",
+      "sentence": "Models can be trained to predict P(IK), the probability that they know the answer to a question, which partly generalizes across tasks.",
+      "citations": [
+        "P1"
+      ],
+      "auto_label": "supported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 30,
+      "question": "What benchmarks evaluate truthfulness of language models?",
+      "where": "summary",
+      "sentence": "Truthfulness of language models is evaluated using benchmarks like TruthfulQA, where humans are truthful on 94% of questions, and Alpaca improved from 32.5% to 65.1% with ITI.",
+      "citations": [
+        "P2",
+        "P1"
+      ],
+      "auto_label": "unsupported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 31,
+      "question": "What benchmarks evaluate truthfulness of language models?",
+      "where": "finding:li2023",
+      "sentence": "ITI improved Alpaca's truthfulness on TruthfulQA from 32.5% to 65.1%.",
+      "citations": [
+        "P1"
+      ],
+      "auto_label": "supported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 32,
+      "question": "What benchmarks evaluate truthfulness of language models?",
+      "where": "finding:lin2021",
+      "sentence": "TruthfulQA measures how models mimic human falsehoods, with the best model truthful on 58% of questions.",
+      "citations": [
+        "P2"
+      ],
+      "auto_label": "partial",
+      "hand_label": "supported",
+      "note": "'mimic human falsehoods' is the paper's title"
+    },
+    {
+      "id": 33,
+      "question": "How are types and causes of hallucination categorised?",
+      "where": "summary",
+      "sentence": "",
+      "citations": [
+        "P1"
+      ],
+      "auto_label": "unsupported",
+      "hand_label": "excluded",
+      "note": "empty summary sentence (model wrote only a label)"
+    },
+    {
+      "id": 34,
+      "question": "How are types and causes of hallucination categorised?",
+      "where": "finding:ji2023",
+      "sentence": "Data problems and modeling issues contribute to hallucinations in language models.",
+      "citations": [
+        "P1"
+      ],
+      "auto_label": "unsupported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 35,
+      "question": "Can preference optimisation be used to train more factual models?",
+      "where": "summary",
+      "sentence": "Preference optimisation, as seen in the method of Direct Preference Optimization in, can be used to train more factual models.",
+      "citations": [
+        "P1"
+      ],
+      "auto_label": "supported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 36,
+      "question": "Can preference optimisation be used to train more factual models?",
+      "where": "finding:tian2023",
+      "sentence": "The authors fine-tune models with Direct Preference Optimization on automatically built factuality preference rankings, derived either from consistency with an external knowledge base or from the model's own confidence.",
+      "citations": [
+        "P1"
+      ],
+      "auto_label": "supported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 37,
+      "question": "How can knowledge in a language model be updated without retraining?",
+      "where": "summary",
+      "sentence": "Knowledge in a language model can be updated without retraining by using retrieval-augmented generation or by using reflection tokens.",
+      "citations": [
+        "P2",
+        "P8"
+      ],
+      "auto_label": "unsupported",
+      "hand_label": "partly_supported",
+      "note": "reflection tokens do not update knowledge"
+    },
+    {
+      "id": 38,
+      "question": "How can knowledge in a language model be updated without retraining?",
+      "where": "finding:lewis2020",
+      "sentence": "Knowledge can be updated by replacing documents in a document index without retraining the model, allowing for the correction of outdated facts.",
+      "citations": [
+        "P2"
+      ],
+      "auto_label": "supported",
+      "hand_label": "supported",
+      "note": ""
+    },
+    {
+      "id": 39,
+      "question": "How can knowledge in a language model be updated without retraining?",
+      "where": "finding:asai2023",
+      "sentence": "Reflection tokens enable users to control the model's responses, trading citation precision for completeness without retraining.",
+      "citations": [
+        "P8"
+      ],
+      "auto_label": "unsupported",
+      "hand_label": "supported",
+      "note": ""
+    }
+  ]
+}

@@ -144,6 +144,18 @@ class HighlightedSentence:
     best: Evidence | None = None
 
 
+RESTATEMENT_OVERLAP = 0.7
+
+
+def is_close_restatement(claim: str, source: str) -> bool:
+    """A sentence that reuses most of its cited passages' words, states no number they lack and adds or
+    drops no negation is a restatement. Small NLI models often reject these (an audit of qwen2.5:7b
+    answers found it in 15 of 31 correct sentences), so they count as supported."""
+    return (support_overlap(claim, source) >= RESTATEMENT_OVERLAP
+            and not missing_numbers(claim, source)
+            and len(_NEGATION.findall(claim)) == len(_NEGATION.findall(source)))
+
+
 def classify(s: NLIScore, scorer: Scorer) -> Support:
     if s.contradiction >= scorer.contradicted_at and s.contradiction > s.entailment:
         return Support.CONTRADICTED
@@ -203,8 +215,11 @@ def highlight_text(text: str, retrieved: Sequence[RetrievedPassage], scorer: Sco
                 hs.best, hs.entailment, hs.support = ev, ev.score.entailment, classify(ev.score, scorer)
                 # NLI models (and word overlap) are weak on figures: a number absent from every
                 # cited passage caps the label at "partial".
-                if hs.support is Support.SUPPORTED and missing_numbers(clean, " ".join(r.passage.text for r in cited)):
+                cited_text = " ".join(r.passage.text for r in cited)
+                if hs.support is Support.SUPPORTED and missing_numbers(clean, cited_text):
                     hs.support = Support.PARTIAL
+                elif hs.support is not Support.SUPPORTED and is_close_restatement(clean, cited_text):
+                    hs.support = Support.SUPPORTED
             else:
                 hs.support = Support.UNSUPPORTED  # nothing in the cited passages is on this topic
         elif cites:
