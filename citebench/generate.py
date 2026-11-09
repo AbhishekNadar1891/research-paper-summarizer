@@ -118,15 +118,72 @@ def _study_type(value: Any) -> StudyType | None:
         return None
 
 
-def answer_from_json(question: str, data: Any) -> Answer:
-    """Coerce the model's JSON into an Answer. Keeps citation labels as written (validation judges them)."""
+def _norm(s: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "", s.lower())
+
+
+def resolve_paper_key(raw: str, citations: list[str], retrieved: list[RetrievedPassage] | None) -> str:
+    """Map whatever the model wrote for "paper" to a retrieved paper's key.
+
+    Small models often write "Dhuliawala et al.", "Chain-of-Verification" or "P3" instead of the key.
+    Tried in order: exact key; a passage label; the key, first author or title inside the text;
+    finally, if every cited passage comes from one paper, that paper. Otherwise the text is kept
+    as written and the validator reports it as an unknown paper.
+    """
+    raw = raw.strip()
+    if not retrieved:
+        return raw
+    papers = {r.paper.key: r.paper for r in retrieved}
+    if raw in papers:
+        return raw
+    by_label = {r.label: r.paper.key for r in retrieved}
+    label = re.fullmatch(r"\[?(P\d+)\]?", raw)
+    if label and label.group(1) in by_label:
+        return by_label[label.group(1)]
+    n = _norm(raw)
+    if n:
+        matches = set()
+        low = raw.lower()
+
+        def has_surname(p) -> bool:
+            surname = p.authors.split()[0].rstrip(",").lower() if p.authors else ""
+            return bool(surname) and re.search(rf"\b{re.escape(surname)}\b", low) is not None
+
+        for key, p in papers.items():
+            title = _norm(p.title)
+            short = _norm(p.title.split(":")[0])
+            if (_norm(key) in n or (has_surname(p) and str(p.year) in raw)
+                    or (len(n) >= 6 and (n in title or (len(short) >= 4 and short in n)))):
+                matches.add(key)
+        if len(matches) == 1:
+            return matches.pop()
+        if not matches:  # surname alone, if unambiguous
+            by_surname = {k for k, p in papers.items() if has_surname(p)}
+            if len(by_surname) == 1:
+                return by_surname.pop()
+    owners = {by_label[c] for c in citations if c in by_label}
+    if len(owners) == 1 and not n:
+        return owners.pop()
+    return raw
+
+
+def answer_from_json(question: str, data: Any, retrieved: list[RetrievedPassage] | None = None) -> Answer:
+    """Coerce the model's JSON into an Answer. Keeps citation labels as written (validation judges them);
+    paper names are resolved to keys when `retrieved` is given."""
     if not isinstance(data, dict):
         data = {}
-    findings = [
-        Finding(paper_key=str(f.get("paper", "")).strip(), finding=str(f.get("finding", "")).strip(),
-                citations=_labels(f.get("citations")), study_type=_study_type(f.get("study_type")))
-        for f in data.get("findings") or [] if isinstance(f, dict) and f.get("finding")
-    ]
+    findings = []
+    for f in data.get("findings") or []:
+        if not (isinstance(f, dict) and f.get("finding")):
+            continue
+        cites = _labels(f.get("citations"))
+        raw = str(f.get("paper", "")).strip()
+        key = resolve_paper_key(raw, cites, retrieved)
+        if not raw:  # no paper named: attribute by citations only if they agree
+            owners = {r.paper.key for r in (retrieved or []) if r.label in cites}
+            key = owners.pop() if len(owners) == 1 else ""
+        findings.append(Finding(paper_key=key, finding=str(f.get("finding", "")).strip(), citations=cites,
+                                study_type=_study_type(f.get("study_type"))))
     evidence = [
         EvidenceClaim(claim=str(e.get("claim", "")).strip(), citations=_labels(e.get("citations")),
                       strength=_strength(e.get("strength")), why=str(e.get("why", "")).strip())
@@ -197,4 +254,4 @@ def generate_grounded(question: str, retrieved: list[RetrievedPassage], llm: LLM
     if llm is None or not retrieved:
         return extractive_answer(question, retrieved)
     data = complete_json(llm, build_prompt(question, retrieved), system=SYSTEM)
-    return answer_from_json(question, data)
+    return answer_from_json(question, data, retrieved)

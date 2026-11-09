@@ -28,6 +28,22 @@ _INLINE = re.compile(r"\[(P\d+)\]")
 _INLINE_ANY = re.compile(r"\s*\[\s*P\d+(?:\s*,\s*P\d+)*\s*\]")
 
 
+MIN_TOPIC_OVERLAP = 0.25  # share of a claim's topical words a source unit must contain to be judged
+# Words every passage in this domain shares; they say nothing about whether two sentences share a topic.
+_GENERIC = {"model", "languag", "larg", "llm", "paper", "study", "method", "approach", "result", "show",
+            "author", "research", "use", "work", "can", "improv", "task", "perform"}
+
+
+def topic_overlap(claim: str, unit: str) -> float:
+    from .retrieval import stem, tokenize
+    generic = {stem(w) for w in _GENERIC}
+    c = {t for t in tokenize(_INLINE_ANY.sub("", claim)) if t not in generic}
+    if not c:
+        return 1.0
+    return len(c & set(tokenize(unit))) / len(c)
+
+
+
 @dataclass(frozen=True)
 class NLIScore:
     entailment: float
@@ -148,6 +164,10 @@ def best_support(claim: str, passages: Sequence[RetrievedPassage], scorer: Score
         units += [(r.label, s) for s in sents]
         if len(sents) > 1:
             units.append((r.label, r.passage.text))
+    # Only judge against units on the same topic. NLI models score unrelated sentence pairs as
+    # "contradiction" or even "entailment" surprisingly often; without this gate a claim about one
+    # dataset gets "contradicted" by a passage about something else entirely.
+    units = [u for u in units if topic_overlap(claim, u[1]) >= MIN_TOPIC_OVERLAP]
     if not units or not claim:
         return None
     scores = scorer.score([(u[1], claim) for u in units])
@@ -185,6 +205,8 @@ def highlight_text(text: str, retrieved: Sequence[RetrievedPassage], scorer: Sco
                 # cited passage caps the label at "partial".
                 if hs.support is Support.SUPPORTED and missing_numbers(clean, " ".join(r.passage.text for r in cited)):
                     hs.support = Support.PARTIAL
+            else:
+                hs.support = Support.UNSUPPORTED  # nothing in the cited passages is on this topic
         elif cites:
             hs.support = Support.UNSUPPORTED  # cites only labels that don't exist
         out.append(hs)

@@ -1,0 +1,1459 @@
+{
+  "meta": {
+    "model": "qwen2.5:7b",
+    "provider": "ollama",
+    "retrieval_mode": "hybrid",
+    "scorer": "cross-encoder/nli-deberta-v3-small",
+    "date": "2026-11-09 03:19 UTC",
+    "machine": "Windows AMD64, Python 3.10.6"
+  },
+  "aggregate": {
+    "questions": 15,
+    "succeeded": 15,
+    "failed": 0,
+    "avg_seconds": 24.366666666666667,
+    "relevant_retrieved": 0.962962962962963,
+    "relevant_in_answer": 0.1,
+    "draft": {
+      "citations": 77,
+      "invalid_citation_rate": 0.0,
+      "invented": 0,
+      "misattributed": 0,
+      "weak_rate": 0.06493506493506493,
+      "number_issues": 3,
+      "strength_downgrades": 8,
+      "answers_with_invalid_citation": 0,
+      "sentence_support": {
+        "supported": 18,
+        "partial": 0,
+        "unsupported": 21,
+        "contradicted": 1,
+        "uncited": 11
+      },
+      "supported_share_of_cited": 0.45
+    },
+    "final": {
+      "citations": 77,
+      "invalid_citation_rate": 0.0,
+      "invented": 0,
+      "misattributed": 0,
+      "weak_rate": 0.06493506493506493,
+      "number_issues": 3,
+      "strength_downgrades": 8,
+      "answers_with_invalid_citation": 0,
+      "sentence_support": {
+        "supported": 18,
+        "partial": 0,
+        "unsupported": 21,
+        "contradicted": 1,
+        "uncited": 11
+      },
+      "supported_share_of_cited": 0.45
+    },
+    "reviewer": {
+      "verdicts": {
+        "accept": 15,
+        "minor": 0,
+        "major": 0
+      },
+      "revised": 0,
+      "note_kinds": {}
+    },
+    "memory_only": {
+      "answers": 15,
+      "claims": 79,
+      "backed": 12,
+      "partial": 2,
+      "not_in_papers": 32,
+      "contradicted": 33,
+      "backed_or_partial_rate": 0.17721518987341772
+    }
+  },
+  "questions": [
+    {
+      "q": "What approaches have researchers used to reduce hallucinations in language models?",
+      "seconds": 63.9,
+      "timings": {
+        "retrieve": 0.018,
+        "generate": 51.806,
+        "validate": 0.001,
+        "review": 3.271,
+        "highlight": 0.309,
+        "compare": 8.296
+      },
+      "retrieved_papers": 12,
+      "relevant_retrieved": 0.7777777777777778,
+      "relevant_in_answer": 0.0,
+      "findings": 2,
+      "evidence_claims": 1,
+      "draft": {
+        "citations": 6,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "uncited": 1,
+        "unknown_paper": 2,
+        "strength_downgrades": 0,
+        "support": {
+          "supported": 2,
+          "partial": 0,
+          "unsupported": 0,
+          "contradicted": 1,
+          "uncited": 1
+        }
+      },
+      "final": {
+        "citations": 6,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "strength_downgrades": 0,
+        "support": {
+          "supported": 2,
+          "partial": 0,
+          "unsupported": 0,
+          "contradicted": 1,
+          "uncited": 1
+        }
+      },
+      "review": {
+        "verdict": "accept",
+        "notes": [],
+        "revised": false
+      },
+      "summary": "Researchers have employed various methods to reduce hallucinations in language models, including Chain-of-Verification (CoVe) [P1], which decreases hallucinations on list-based questions, and DoLa [P8], which improved truthfulness on TruthfulQA by 12 to 17 absolute percentage points. These findings suggest that active validation and contrasting layers can effectively mitigate hallucinations.",
+      "memory_only": {
+        "backed": 1,
+        "partial": 1,
+        "not_in_papers": 1,
+        "contradicted": 2,
+        "claims": 5,
+        "backed_rate": 0.4,
+        "papers_unused_by_memory": 0,
+        "claims_detail": [
+          {
+            "claim": "Fine-tuning models on specific datasets can help reduce hallucinations.",
+            "status": "not_in_papers",
+            "evidence": "The paper shows a statistical lower bound on the rate at which calibrated pretrained language models hallucinate arbitrary facts whose truth cannot be determined from the training data."
+          },
+          {
+            "claim": "The C4 dataset is used to train language models for more factual information.",
+            "status": "contradicted",
+            "evidence": "CoVe decreased hallucinations on list-based questions from Wikidata, closed-book MultiSpanQA and long-form biography generation."
+          },
+          {
+            "claim": "Prompt engineering can guide models to produce more accurate responses.",
+            "status": "backed",
+            "evidence": "The authors fine-tune models with Direct Preference Optimization on automatically built factuality preference rankings, derived either from consistency with an external knowledge base or from the model's own confidence."
+          },
+          {
+            "claim": "Reward modeling trains models to generate responses that align better with human preferences and facts.",
+            "status": "contradicted",
+            "evidence": "Mitigation methods fall into data-related methods, such as building faithful datasets and cleaning data, and modeling and inference methods, such as architecture changes, training objectives and post-processing."
+          },
+          {
+            "claim": "Integrating external knowledge sources, such as Wikipedia, can improve the factual consistency of language models.",
+            "status": "partial",
+            "evidence": "CoVe decreased hallucinations on list-based questions from Wikidata, closed-book MultiSpanQA and long-form biography generation."
+          }
+        ]
+      }
+    },
+    {
+      "q": "How can hallucinations be detected without access to the model's internals?",
+      "seconds": 18.4,
+      "timings": {
+        "retrieve": 0.019,
+        "generate": 6.727,
+        "validate": 0.0,
+        "review": 3.157,
+        "highlight": 0.142,
+        "compare": 8.267
+      },
+      "retrieved_papers": 12,
+      "relevant_retrieved": 1.0,
+      "relevant_in_answer": 0.0,
+      "findings": 1,
+      "evidence_claims": 1,
+      "draft": {
+        "citations": 3,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "uncited": 0,
+        "unknown_paper": 1,
+        "strength_downgrades": 1,
+        "support": {
+          "supported": 2,
+          "partial": 0,
+          "unsupported": 0,
+          "contradicted": 0,
+          "uncited": 0
+        }
+      },
+      "final": {
+        "citations": 3,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "strength_downgrades": 1,
+        "support": {
+          "supported": 2,
+          "partial": 0,
+          "unsupported": 0,
+          "contradicted": 0,
+          "uncited": 0
+        }
+      },
+      "review": {
+        "verdict": "accept",
+        "notes": [],
+        "revised": false
+      },
+      "summary": "SelfCheckGPT can detect hallucinations without accessing the model's internals by sampling multiple responses and checking for consistency [P1].",
+      "memory_only": {
+        "backed": 2,
+        "partial": 0,
+        "not_in_papers": 1,
+        "contradicted": 2,
+        "claims": 5,
+        "backed_rate": 0.4,
+        "papers_unused_by_memory": 0,
+        "claims_detail": [
+          {
+            "claim": "Detecting hallucinations without model internals requires external methods.",
+            "status": "contradicted",
+            "evidence": "The method detects likely hallucinations during generation from the model's logit-based uncertainty on key concepts, then validates those concepts against retrieved knowledge and repairs them before generation continues."
+          },
+          {
+            "claim": "Perplexity can be used to measure the model's prediction accuracy.",
+            "status": "contradicted",
+            "evidence": "Inference-Time Intervention (ITI) shifts model activations along directions associated with truthfulness in a small number of attention heads during inference."
+          },
+          {
+            "claim": "Comparing model outputs with a reference dataset can identify discrepancies.",
+            "status": "backed",
+            "evidence": "The paper shows a statistical lower bound on the rate at which calibrated pretrained language models hallucinate arbitrary facts whose truth cannot be determined from the training data."
+          },
+          {
+            "claim": "Adversarial inputs can help detect incorrect responses from the model.",
+            "status": "backed",
+            "evidence": "The method detects likely hallucinations during generation from the model's logit-based uncertainty on key concepts, then validates those concepts against retrieved knowledge and repairs them before generation continues."
+          },
+          {
+            "claim": "Human evaluators can assess model outputs for hallucinations, though this is resource-intensive.",
+            "status": "not_in_papers",
+            "evidence": "SelfCheckGPT detects hallucinations without access to model internals or an external database: it samples several responses and checks whether a claim is consistent across them."
+          }
+        ]
+      }
+    },
+    {
+      "q": "Does retrieval augmentation improve factuality?",
+      "seconds": 24.3,
+      "timings": {
+        "retrieve": 0.017,
+        "generate": 10.258,
+        "validate": 0.001,
+        "review": 3.277,
+        "highlight": 0.29,
+        "compare": 10.219
+      },
+      "retrieved_papers": 12,
+      "relevant_retrieved": 1.0,
+      "relevant_in_answer": 0.0,
+      "findings": 2,
+      "evidence_claims": 1,
+      "draft": {
+        "citations": 8,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 2,
+        "number_issues": 0,
+        "uncited": 0,
+        "unknown_paper": 2,
+        "strength_downgrades": 0,
+        "support": {
+          "supported": 0,
+          "partial": 0,
+          "unsupported": 4,
+          "contradicted": 0,
+          "uncited": 0
+        }
+      },
+      "final": {
+        "citations": 8,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 2,
+        "number_issues": 0,
+        "strength_downgrades": 0,
+        "support": {
+          "supported": 0,
+          "partial": 0,
+          "unsupported": 4,
+          "contradicted": 0,
+          "uncited": 0
+        }
+      },
+      "review": {
+        "verdict": "accept",
+        "notes": [],
+        "revised": false
+      },
+      "summary": "Retrieval augmentation can improve factuality, as seen in studies like [P1] and [P4]. However, the question of whether it definitively improves factuality across all models remains open, as some papers like [P9] suggest that larger models may not necessarily be more truthful.",
+      "memory_only": {
+        "backed": 3,
+        "partial": 0,
+        "not_in_papers": 2,
+        "contradicted": 1,
+        "claims": 6,
+        "backed_rate": 0.5,
+        "papers_unused_by_memory": 0,
+        "claims_detail": [
+          {
+            "claim": "Retrieval augmentation combines a retrieval component with a generative model.",
+            "status": "contradicted",
+            "evidence": "An automated estimator that uses retrieval and a strong language model approximates human FActScore with an error rate below 2%, which makes large-scale factuality evaluation practical."
+          },
+          {
+            "claim": "This method can enhance the accuracy of generated content.",
+            "status": "backed",
+            "evidence": "The reference-free variant that uses model confidence still improved factuality, so the approach can work without a curated knowledge base."
+          },
+          {
+            "claim": "A study in TACL in 2020 showed that retrieval-augmented models outperformed their counterparts in factual correctness by 10%.",
+            "status": "not_in_papers",
+            "evidence": "Detection reached about 88% recall, and the mitigation step corrected 57.6% of correctly detected hallucinations without introducing new ones in most cases."
+          },
+          {
+            "claim": "Retrieval augmentation can help mitigate the issue of hallucination in models.",
+            "status": "backed",
+            "evidence": "Human evaluations show that retrieval-augmented dialogue models substantially reduce knowledge hallucination compared with standard large dialogue models, while keeping conversational ability."
+          },
+          {
+            "claim": "The technique works by retrieving relevant passages from a knowledge base or document collection.",
+            "status": "backed",
+            "evidence": "Because knowledge is stored in a document index rather than only in weights, it can be updated by replacing documents without retraining the model, which offers a way to correct outdated facts."
+          },
+          {
+            "claim": "These retrieved passages are used to inform the generation process, improving factual consistency.",
+            "status": "not_in_papers",
+            "evidence": "The authors fine-tune models with Direct Preference Optimization on automatically built factuality preference rankings, derived either from consistency with an external knowledge base or from the model's own confidence."
+          }
+        ]
+      }
+    },
+    {
+      "q": "How accurate are LLM citations?",
+      "seconds": 22.0,
+      "timings": {
+        "retrieve": 0.019,
+        "generate": 9.223,
+        "validate": 0.001,
+        "review": 3.336,
+        "highlight": 0.23,
+        "compare": 8.984
+      },
+      "retrieved_papers": 12,
+      "relevant_retrieved": 1.0,
+      "relevant_in_answer": 0.0,
+      "findings": 1,
+      "evidence_claims": 1,
+      "draft": {
+        "citations": 6,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 3,
+        "number_issues": 0,
+        "uncited": 0,
+        "unknown_paper": 1,
+        "strength_downgrades": 1,
+        "support": {
+          "supported": 0,
+          "partial": 0,
+          "unsupported": 3,
+          "contradicted": 0,
+          "uncited": 0
+        }
+      },
+      "final": {
+        "citations": 6,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 3,
+        "number_issues": 0,
+        "strength_downgrades": 1,
+        "support": {
+          "supported": 0,
+          "partial": 0,
+          "unsupported": 3,
+          "contradicted": 0,
+          "uncited": 0
+        }
+      },
+      "review": {
+        "verdict": "accept",
+        "notes": [],
+        "revised": false
+      },
+      "summary": "The accuracy of LLM citations is a complex issue, with some studies suggesting that larger models may be less truthful [P9], while others propose methods to improve citation quality, such as Chain-of-Verification [P10]. The effectiveness of these methods is still being evaluated [P10].",
+      "memory_only": {
+        "backed": 0,
+        "partial": 0,
+        "not_in_papers": 3,
+        "contradicted": 2,
+        "claims": 5,
+        "backed_rate": 0.0,
+        "papers_unused_by_memory": 0,
+        "claims_detail": [
+          {
+            "claim": "LLM citations can be accurate but are not infallible.",
+            "status": "not_in_papers",
+            "evidence": "Detection reached about 88% recall, and the mitigation step corrected 57.6% of correctly detected hallucinations without introducing new ones in most cases."
+          },
+          {
+            "claim": "Studies have shown that LLM citation accuracy ranges from 70-80%.",
+            "status": "contradicted",
+            "evidence": "ITI raised the truthfulness of Alpaca on TruthfulQA from 32.5% to 65.1%."
+          },
+          {
+            "claim": "A study by Brown et al. (2020) found a citation accuracy of 75%.",
+            "status": "contradicted",
+            "evidence": "ITI raised the truthfulness of Alpaca on TruthfulQA from 32.5% to 65.1%."
+          },
+          {
+            "claim": "LLMs can generate incorrect citations due to training data errors or biases.",
+            "status": "not_in_papers",
+            "evidence": "The bound concerns arbitrary facts such as rare references or biographical details, not systematic facts like arithmetic, which suggests post-training or other methods are needed to reduce hallucination of rare facts."
+          },
+          {
+            "claim": "Accuracy can vary based on task complexity and context relevance.",
+            "status": "not_in_papers",
+            "evidence": "Compared with RLHF and factuality-targeted decoding, this reduced the factual error rate of a 7B Llama-2 model by 58% on biographies and by 40% on medical questions."
+          }
+        ]
+      }
+    },
+    {
+      "q": "Can fine-tuning make hallucination worse?",
+      "seconds": 22.8,
+      "timings": {
+        "retrieve": 0.018,
+        "generate": 9.598,
+        "validate": 0.001,
+        "review": 3.335,
+        "highlight": 0.197,
+        "compare": 9.437
+      },
+      "retrieved_papers": 12,
+      "relevant_retrieved": 1.0,
+      "relevant_in_answer": 0.0,
+      "findings": 1,
+      "evidence_claims": 1,
+      "draft": {
+        "citations": 5,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 3,
+        "uncited": 0,
+        "unknown_paper": 1,
+        "strength_downgrades": 1,
+        "support": {
+          "supported": 0,
+          "partial": 0,
+          "unsupported": 3,
+          "contradicted": 0,
+          "uncited": 0
+        }
+      },
+      "final": {
+        "citations": 5,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 3,
+        "strength_downgrades": 1,
+        "support": {
+          "supported": 0,
+          "partial": 0,
+          "unsupported": 3,
+          "contradicted": 0,
+          "uncited": 0
+        }
+      },
+      "review": {
+        "verdict": "accept",
+        "notes": [],
+        "revised": false
+      },
+      "summary": "Fine-tuning can potentially make hallucination worse, as suggested by Gekhman et al. (2024) [P1], who found that early stopping reduces the risk of hallucinations from new knowledge examples. However, this is not a universal finding, as some methods like DoLa (2023) [P11] have shown improvements in truthfulness without additional fine-tuning.",
+      "memory_only": {
+        "backed": 2,
+        "partial": 0,
+        "not_in_papers": 2,
+        "contradicted": 2,
+        "claims": 6,
+        "backed_rate": 0.333,
+        "papers_unused_by_memory": 0,
+        "claims_detail": [
+          {
+            "claim": "Fine-tuning can lead to increased hallucinations in language models.",
+            "status": "contradicted",
+            "evidence": "Mitigation methods fall into data-related methods, such as building faithful datasets and cleaning data, and modeling and inference methods, such as architecture changes, training objectives and post-processing."
+          },
+          {
+            "claim": "A study by Brown et al. (2020) demonstrated that fine-tuning on small datasets can exacerbate hallucinations.",
+            "status": "contradicted",
+            "evidence": "CoVe decreased hallucinations on list-based questions from Wikidata, closed-book MultiSpanQA and long-form biography generation."
+          },
+          {
+            "claim": "Overfitting to the training data can cause models to generate incorrect information.",
+            "status": "backed",
+            "evidence": "The paper shows a statistical lower bound on the rate at which calibrated pretrained language models hallucinate arbitrary facts whose truth cannot be determined from the training data."
+          },
+          {
+            "claim": "Experiments have shown that fine-tuned models can produce inaccurate historical facts.",
+            "status": "not_in_papers",
+            "evidence": "CoVe decreased hallucinations on list-based questions from Wikidata, closed-book MultiSpanQA and long-form biography generation."
+          },
+          {
+            "claim": "Regularization techniques can help reduce hallucinations during fine-tuning.",
+            "status": "not_in_papers",
+            "evidence": "The authors conclude that models mostly acquire factual knowledge during pretraining while fine-tuning teaches them to use it, and that early stopping reduces the hallucination risk from new-knowledge examples."
+          },
+          {
+            "claim": "Careful fine-tuning can mitigate the risk of generating incorrect information.",
+            "status": "backed",
+            "evidence": "Mitigation methods fall into data-related methods, such as building faithful datasets and cleaning data, and modeling and inference methods, such as architecture changes, training objectives and post-processing."
+          }
+        ]
+      }
+    },
+    {
+      "q": "Do larger models hallucinate less?",
+      "seconds": 23.5,
+      "timings": {
+        "retrieve": 0.018,
+        "generate": 9.159,
+        "validate": 0.001,
+        "review": 3.305,
+        "highlight": 0.209,
+        "compare": 10.596
+      },
+      "retrieved_papers": 12,
+      "relevant_retrieved": 1.0,
+      "relevant_in_answer": 0.0,
+      "findings": 2,
+      "evidence_claims": 1,
+      "draft": {
+        "citations": 8,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "uncited": 1,
+        "unknown_paper": 2,
+        "strength_downgrades": 0,
+        "support": {
+          "supported": 3,
+          "partial": 0,
+          "unsupported": 0,
+          "contradicted": 0,
+          "uncited": 1
+        }
+      },
+      "final": {
+        "citations": 8,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "strength_downgrades": 0,
+        "support": {
+          "supported": 3,
+          "partial": 0,
+          "unsupported": 0,
+          "contradicted": 0,
+          "uncited": 1
+        }
+      },
+      "review": {
+        "verdict": "accept",
+        "notes": [],
+        "revised": false
+      },
+      "summary": "The passages do not provide a clear answer to whether larger models hallucinate less. While some papers suggest that larger models are better calibrated on certain tasks [P5], others indicate that larger models may imitate popular falsehoods more effectively [P1].",
+      "memory_only": {
+        "backed": 0,
+        "partial": 0,
+        "not_in_papers": 4,
+        "contradicted": 1,
+        "claims": 5,
+        "backed_rate": 0.0,
+        "papers_unused_by_memory": 0,
+        "claims_detail": [
+          {
+            "claim": "A study by Brown et al. (2020) found that larger models are less likely to generate incorrect or nonsensical responses.",
+            "status": "not_in_papers",
+            "evidence": "Human evaluations show that retrieval-augmented dialogue models substantially reduce knowledge hallucination compared with standard large dialogue models, while keeping conversational ability."
+          },
+          {
+            "claim": "Another study by Radford et al. (2019) reported that models with more parameters exhibit better generalization and fewer hallucinations.",
+            "status": "not_in_papers",
+            "evidence": "Human evaluations show that retrieval-augmented dialogue models substantially reduce knowledge hallucination compared with standard large dialogue models, while keeping conversational ability."
+          },
+          {
+            "claim": "The exact threshold at which hallucinations decrease is not clearly defined.",
+            "status": "contradicted",
+            "evidence": "Larger language models are well calibrated on diverse multiple-choice and true/false questions when the questions are presented in a suitable format."
+          },
+          {
+            "claim": "Other factors such as training data quality and model architecture also play significant roles.",
+            "status": "not_in_papers",
+            "evidence": "Larger models were generally less truthful because they imitate popular falsehoods more effectively; the authors argue that scaling alone is less promising for truthfulness than fine-tuning with objectives other than imitating web text."
+          },
+          {
+            "claim": "A more recent study by Liang et al. (2021) found that while larger models can generalize better, they still require careful training to avoid hallucinations.",
+            "status": "not_in_papers",
+            "evidence": "The factored variant, which answers each verification question in a separate prompt without the draft in context, worked better than joint verification, because a model that can see its draft tends to repeat its own hallucinations."
+          }
+        ]
+      }
+    },
+    {
+      "q": "How do you measure factual precision in long-form generation?",
+      "seconds": 21.1,
+      "timings": {
+        "retrieve": 0.017,
+        "generate": 7.912,
+        "validate": 0.0,
+        "review": 3.287,
+        "highlight": 0.115,
+        "compare": 9.65
+      },
+      "retrieved_papers": 12,
+      "relevant_retrieved": 1.0,
+      "relevant_in_answer": 0.0,
+      "findings": 1,
+      "evidence_claims": 1,
+      "draft": {
+        "citations": 3,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "uncited": 1,
+        "unknown_paper": 1,
+        "strength_downgrades": 1,
+        "support": {
+          "supported": 2,
+          "partial": 0,
+          "unsupported": 0,
+          "contradicted": 0,
+          "uncited": 1
+        }
+      },
+      "final": {
+        "citations": 3,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "strength_downgrades": 1,
+        "support": {
+          "supported": 2,
+          "partial": 0,
+          "unsupported": 0,
+          "contradicted": 0,
+          "uncited": 1
+        }
+      },
+      "review": {
+        "verdict": "accept",
+        "notes": [],
+        "revised": false
+      },
+      "summary": "Factual precision in long-form generation is measured by breaking the text into atomic facts and evaluating the percentage of these facts supported by reliable knowledge sources, as seen in the FActScore method [P1]. This approach provides a finer-grained measure than simply judging the entire output as true or false.",
+      "memory_only": {
+        "backed": 0,
+        "partial": 0,
+        "not_in_papers": 1,
+        "contradicted": 4,
+        "claims": 5,
+        "backed_rate": 0.0,
+        "papers_unused_by_memory": 0,
+        "claims_detail": [
+          {
+            "claim": "BLEU, ROUGE, and METEOR are automatic metrics used to compare generated text with references.",
+            "status": "contradicted",
+            "evidence": "FActScore breaks a long generation into atomic facts and computes the percentage that a reliable knowledge source supports, a finer-grained measure than judging whole outputs as true or false."
+          },
+          {
+            "claim": "A study by Lison and Tiedemann (2012) showed that ROUGE scores correlate with human judgments of text quality.",
+            "status": "contradicted",
+            "evidence": "Even the best models tested lacked complete citation support for about half of their generations on the ELI5 dataset."
+          },
+          {
+            "claim": "Fact-checking tools like Snopes or FactCheck.org can be used to verify the accuracy of claims in the text.",
+            "status": "not_in_papers",
+            "evidence": "CoVe decreased hallucinations on list-based questions from Wikidata, closed-book MultiSpanQA and long-form biography generation."
+          },
+          {
+            "claim": "Li et al. (2020) proposed a hybrid approach combining automatic metrics and human annotations to improve factual precision evaluation.",
+            "status": "contradicted",
+            "evidence": "DoLa obtains the next-token distribution by contrasting logits from later transformer layers with those from earlier layers, based on the observation that factual knowledge tends to be localized in particular layers."
+          },
+          {
+            "claim": "Human evaluation involves experts rating the factual accuracy of the generated content.",
+            "status": "contradicted",
+            "evidence": "The method detects likely hallucinations during generation from the model's logit-based uncertainty on key concepts, then validates those concepts against retrieved knowledge and repairs them before generation continues."
+          }
+        ]
+      }
+    },
+    {
+      "q": "Can decoding strategies improve truthfulness without extra training?",
+      "seconds": 22.2,
+      "timings": {
+        "retrieve": 0.018,
+        "generate": 8.683,
+        "validate": 0.0,
+        "review": 3.252,
+        "highlight": 0.115,
+        "compare": 10.054
+      },
+      "retrieved_papers": 12,
+      "relevant_retrieved": 1.0,
+      "relevant_in_answer": 0.5,
+      "findings": 1,
+      "evidence_claims": 1,
+      "draft": {
+        "citations": 3,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "uncited": 1,
+        "unknown_paper": 0,
+        "strength_downgrades": 1,
+        "support": {
+          "supported": 1,
+          "partial": 0,
+          "unsupported": 1,
+          "contradicted": 0,
+          "uncited": 1
+        }
+      },
+      "final": {
+        "citations": 3,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "strength_downgrades": 1,
+        "support": {
+          "supported": 1,
+          "partial": 0,
+          "unsupported": 1,
+          "contradicted": 0,
+          "uncited": 1
+        }
+      },
+      "review": {
+        "verdict": "accept",
+        "notes": [],
+        "revised": false
+      },
+      "summary": "Decoding strategies can improve truthfulness without extra training, as demonstrated by the DoLa method, which improved LLaMA models' truthfulness on TruthfulQA by 12 to 17 percentage points [P1]. However, the question of whether this improvement can be achieved without additional fine-tuning or training is not directly addressed in the provided passages, making it a gap in the current evidence.",
+      "memory_only": {
+        "backed": 0,
+        "partial": 0,
+        "not_in_papers": 1,
+        "contradicted": 5,
+        "claims": 6,
+        "backed_rate": 0.0,
+        "papers_unused_by_memory": 1,
+        "claims_detail": [
+          {
+            "claim": "Decoding strategies can improve truthfulness without extra training.",
+            "status": "contradicted",
+            "evidence": "Mitigation methods fall into data-related methods, such as building faithful datasets and cleaning data, and modeling and inference methods, such as architecture changes, training objectives and post-processing."
+          },
+          {
+            "claim": "DePaulo and colleagues (2003) found that the double-study method increased accuracy in detecting deception.",
+            "status": "contradicted",
+            "evidence": "Self-RAG trains a single language model to retrieve passages on demand and to generate reflection tokens that judge whether retrieval is needed, whether passages are relevant, and whether its own output is supported by them."
+          },
+          {
+            "claim": "The double-study method involves studying a set of statements and then studying a second set with mixed statements.",
+            "status": "contradicted",
+            "evidence": "Self-RAG trains a single language model to retrieve passages on demand and to generate reflection tokens that judge whether retrieval is needed, whether passages are relevant, and whether its own output is supported by them."
+          },
+          {
+            "claim": "Participants using the double-study method showed higher accuracy in detecting deception compared to a control group.",
+            "status": "contradicted",
+            "evidence": "Self-RAG trains a single language model to retrieve passages on demand and to generate reflection tokens that judge whether retrieval is needed, whether passages are relevant, and whether its own output is supported by them."
+          },
+          {
+            "claim": "Vrij and colleagues (2000) found that recalling details from a story improved lie detection.",
+            "status": "contradicted",
+            "evidence": "Without retrieved knowledge or additional fine-tuning, DoLa improved LLaMA models' truthfulness on TruthfulQA by 12 to 17 absolute percentage points."
+          },
+          {
+            "claim": "Using a method where participants recall details from a story can enhance their ability to detect lies.",
+            "status": "not_in_papers",
+            "evidence": "The authors conclude that models mostly acquire factual knowledge during pretraining while fine-tuning teaches them to use it, and that early stopping reduces the hallucination risk from new-knowledge examples."
+          }
+        ]
+      }
+    },
+    {
+      "q": "Is hallucination theoretically unavoidable?",
+      "seconds": 20.8,
+      "timings": {
+        "retrieve": 0.018,
+        "generate": 8.143,
+        "validate": 0.0,
+        "review": 3.292,
+        "highlight": 0.114,
+        "compare": 9.116
+      },
+      "retrieved_papers": 12,
+      "relevant_retrieved": 1.0,
+      "relevant_in_answer": 0.0,
+      "findings": 1,
+      "evidence_claims": 1,
+      "draft": {
+        "citations": 5,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "uncited": 1,
+        "unknown_paper": 1,
+        "strength_downgrades": 0,
+        "support": {
+          "supported": 1,
+          "partial": 0,
+          "unsupported": 1,
+          "contradicted": 0,
+          "uncited": 1
+        }
+      },
+      "final": {
+        "citations": 5,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "strength_downgrades": 0,
+        "support": {
+          "supported": 1,
+          "partial": 0,
+          "unsupported": 1,
+          "contradicted": 0,
+          "uncited": 1
+        }
+      },
+      "review": {
+        "verdict": "accept",
+        "notes": [],
+        "revised": false
+      },
+      "summary": "The theoretical inevitability of hallucination in language models is suggested by [P2], which states that the hallucination rate is roughly bounded below by the fraction of facts appearing exactly once in the training data. However, this does not definitively prove that hallucinations are unavoidable, as other papers propose methods to reduce hallucinations [P3, P10, P12].",
+      "memory_only": {
+        "backed": 0,
+        "partial": 0,
+        "not_in_papers": 3,
+        "contradicted": 2,
+        "claims": 5,
+        "backed_rate": 0.0,
+        "papers_unused_by_memory": 0,
+        "claims_detail": [
+          {
+            "claim": "Hallucination can occur during the transition between sleep and wakefulness.",
+            "status": "not_in_papers",
+            "evidence": "The method detects likely hallucinations during generation from the model's logit-based uncertainty on key concepts, then validates those concepts against retrieved knowledge and repairs them before generation continues."
+          },
+          {
+            "claim": "Hypnagogic hallucinations are vivid sensory or motor perceptions experienced just before falling asleep.",
+            "status": "contradicted",
+            "evidence": "Mitigation methods fall into data-related methods, such as building faithful datasets and cleaning data, and modeling and inference methods, such as architecture changes, training objectives and post-processing."
+          },
+          {
+            "claim": "These hallucinations are thought to arise from the brain's attempt to integrate information and prepare for sleep.",
+            "status": "contradicted",
+            "evidence": "The method detects likely hallucinations during generation from the model's logit-based uncertainty on key concepts, then validates those concepts against retrieved knowledge and repairs them before generation continues."
+          },
+          {
+            "claim": "Sensory deprivation can lead to the generation of hallucinations by the brain to compensate for the lack of external stimuli.",
+            "status": "not_in_papers",
+            "evidence": "The method detects likely hallucinations during generation from the model's logit-based uncertainty on key concepts, then validates those concepts against retrieved knowledge and repairs them before generation continues."
+          },
+          {
+            "claim": "Under specific conditions, such as during sensory deprivation or sleep-wake transitions, hallucinations can be an inevitable part of the human experience.",
+            "status": "not_in_papers",
+            "evidence": "The method detects likely hallucinations during generation from the model's logit-based uncertainty on key concepts, then validates those concepts against retrieved knowledge and repairs them before generation continues."
+          }
+        ]
+      }
+    },
+    {
+      "q": "Can a model check and revise its own answers to fix errors?",
+      "seconds": 21.0,
+      "timings": {
+        "retrieve": 0.017,
+        "generate": 9.618,
+        "validate": 0.0,
+        "review": 3.31,
+        "highlight": 0.194,
+        "compare": 7.723
+      },
+      "retrieved_papers": 12,
+      "relevant_retrieved": 1.0,
+      "relevant_in_answer": 0.0,
+      "findings": 2,
+      "evidence_claims": 1,
+      "draft": {
+        "citations": 5,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "uncited": 1,
+        "unknown_paper": 2,
+        "strength_downgrades": 1,
+        "support": {
+          "supported": 1,
+          "partial": 0,
+          "unsupported": 2,
+          "contradicted": 0,
+          "uncited": 1
+        }
+      },
+      "final": {
+        "citations": 5,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "strength_downgrades": 1,
+        "support": {
+          "supported": 1,
+          "partial": 0,
+          "unsupported": 2,
+          "contradicted": 0,
+          "uncited": 1
+        }
+      },
+      "review": {
+        "verdict": "accept",
+        "notes": [],
+        "revised": false
+      },
+      "summary": "Models can estimate the probability of their own answers being true, as seen in [P2], and can be trained to reduce factual errors, as in [P3]. However, the passages do not provide direct evidence that models can check and revise their own answers to fix errors.",
+      "memory_only": {
+        "backed": 1,
+        "partial": 1,
+        "not_in_papers": 0,
+        "contradicted": 3,
+        "claims": 5,
+        "backed_rate": 0.4,
+        "papers_unused_by_memory": 0,
+        "claims_detail": [
+          {
+            "claim": "Models can use Bayesian inference to estimate prediction uncertainty.",
+            "status": "contradicted",
+            "evidence": "The method detects likely hallucinations during generation from the model's logit-based uncertainty on key concepts, then validates those concepts against retrieved knowledge and repairs them before generation continues."
+          },
+          {
+            "claim": "If uncertain, models can seek additional information or revise their answers.",
+            "status": "backed",
+            "evidence": "The system works in two stages: a research stage that generates queries and retrieves evidence, and a revision stage that checks agreement with the evidence and edits disagreeing content."
+          },
+          {
+            "claim": "Validation sets can be used to check predictions against known correct answers.",
+            "status": "contradicted",
+            "evidence": "The method detects likely hallucinations during generation from the model's logit-based uncertainty on key concepts, then validates those concepts against retrieved knowledge and repairs them before generation continues."
+          },
+          {
+            "claim": "Models can be trained to recognize and correct their own errors.",
+            "status": "partial",
+            "evidence": "Self-RAG trains a single language model to retrieve passages on demand and to generate reflection tokens that judge whether retrieval is needed, whether passages are relevant, and whether its own output is supported by them."
+          },
+          {
+            "claim": "Research has demonstrated improvements in accuracy through self-correction mechanisms.",
+            "status": "contradicted",
+            "evidence": "Without retrieved knowledge or additional fine-tuning, DoLa improved LLaMA models' truthfulness on TruthfulQA by 12 to 17 absolute percentage points."
+          }
+        ]
+      }
+    },
+    {
+      "q": "Do language models know when they don't know the answer?",
+      "seconds": 20.3,
+      "timings": {
+        "retrieve": 0.02,
+        "generate": 7.197,
+        "validate": 0.0,
+        "review": 3.207,
+        "highlight": 0.109,
+        "compare": 9.697
+      },
+      "retrieved_papers": 12,
+      "relevant_retrieved": 0.6666666666666666,
+      "relevant_in_answer": 0.0,
+      "findings": 1,
+      "evidence_claims": 1,
+      "draft": {
+        "citations": 3,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "uncited": 1,
+        "unknown_paper": 1,
+        "strength_downgrades": 0,
+        "support": {
+          "supported": 1,
+          "partial": 0,
+          "unsupported": 1,
+          "contradicted": 0,
+          "uncited": 1
+        }
+      },
+      "final": {
+        "citations": 3,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "strength_downgrades": 0,
+        "support": {
+          "supported": 1,
+          "partial": 0,
+          "unsupported": 1,
+          "contradicted": 0,
+          "uncited": 1
+        }
+      },
+      "review": {
+        "verdict": "accept",
+        "notes": [],
+        "revised": false
+      },
+      "summary": "Language models can be trained to predict their own knowledge, as seen in [P1]. However, the passages do not provide strong evidence that language models consistently know when they do not know the answer.",
+      "memory_only": {
+        "backed": 1,
+        "partial": 0,
+        "not_in_papers": 3,
+        "contradicted": 2,
+        "claims": 6,
+        "backed_rate": 0.167,
+        "papers_unused_by_memory": 0,
+        "claims_detail": [
+          {
+            "claim": "Language models do not explicitly know when they don't know the answer.",
+            "status": "not_in_papers",
+            "evidence": "The factored variant, which answers each verification question in a separate prompt without the draft in context, worked better than joint verification, because a model that can see its draft tends to repeat its own hallucinations."
+          },
+          {
+            "claim": "Models can generate less confident responses for out-of-domain questions.",
+            "status": "backed",
+            "evidence": "Models can also be trained to predict P(IK), the probability that they know the answer to a question; this partly generalizes across tasks, though calibration on new tasks is weaker."
+          },
+          {
+            "claim": "A study found that models like BERT can produce less certain outputs for out-of-domain questions (2020).",
+            "status": "contradicted",
+            "evidence": "Without retrieved knowledge or additional fine-tuning, DoLa improved LLaMA models' truthfulness on TruthfulQA by 12 to 17 absolute percentage points."
+          },
+          {
+            "claim": "Techniques exist to measure model confidence, such as using the softmax output.",
+            "status": "not_in_papers",
+            "evidence": "The factored variant, which answers each verification question in a separate prompt without the draft in context, worked better than joint verification, because a model that can see its draft tends to repeat its own hallucinations."
+          },
+          {
+            "claim": "Models can be fine-tuned to better reflect their uncertainty (2021).",
+            "status": "contradicted",
+            "evidence": "The authors fine-tune models with Direct Preference Optimization on automatically built factuality preference rankings, derived either from consistency with an external knowledge base or from the model's own confidence."
+          },
+          {
+            "claim": "These methods are still an area of active research.",
+            "status": "not_in_papers",
+            "evidence": "Models learn fine-tuning examples with new knowledge much more slowly than examples consistent with what they already know, and as those examples are eventually learned, the tendency to hallucinate increases linearly."
+          }
+        ]
+      }
+    },
+    {
+      "q": "What benchmarks evaluate truthfulness of language models?",
+      "seconds": 24.3,
+      "timings": {
+        "retrieve": 0.016,
+        "generate": 11.459,
+        "validate": 0.001,
+        "review": 3.321,
+        "highlight": 0.283,
+        "compare": 8.986
+      },
+      "retrieved_papers": 12,
+      "relevant_retrieved": 1.0,
+      "relevant_in_answer": 0.0,
+      "findings": 3,
+      "evidence_claims": 1,
+      "draft": {
+        "citations": 9,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "uncited": 0,
+        "unknown_paper": 3,
+        "strength_downgrades": 1,
+        "support": {
+          "supported": 1,
+          "partial": 0,
+          "unsupported": 4,
+          "contradicted": 0,
+          "uncited": 0
+        }
+      },
+      "final": {
+        "citations": 9,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "strength_downgrades": 1,
+        "support": {
+          "supported": 1,
+          "partial": 0,
+          "unsupported": 4,
+          "contradicted": 0,
+          "uncited": 0
+        }
+      },
+      "review": {
+        "verdict": "accept",
+        "notes": [],
+        "revised": false
+      },
+      "summary": "Truthfulness of language models is evaluated using benchmarks like TruthfulQA [P2], FACTScore [P3], and chain-of-thought reasoning [P4]. These benchmarks help in understanding the extent to which models can provide truthful answers, but there are still gaps in their ability to fully match human truthfulness [P2].",
+      "memory_only": {
+        "backed": 0,
+        "partial": 0,
+        "not_in_papers": 4,
+        "contradicted": 1,
+        "claims": 5,
+        "backed_rate": 0.0,
+        "papers_unused_by_memory": 0,
+        "claims_detail": [
+          {
+            "claim": "TruthfulQA evaluates models on their ability to generate truthful and factually correct responses.",
+            "status": "not_in_papers",
+            "evidence": "Human raters judged its generations more factual and more specific than those of a parametric-only BART baseline."
+          },
+          {
+            "claim": "CopeBench assesses models on their ability to generate coherent and truthful responses, and to avoid harmful or misleading content.",
+            "status": "contradicted",
+            "evidence": "The paper shows a statistical lower bound on the rate at which calibrated pretrained language models hallucinate arbitrary facts whose truth cannot be determined from the training data."
+          },
+          {
+            "claim": "Liar's Game and Liar's Corroborated are part of the Liar datasets that test models on their ability to generate truthful statements and to detect falsehoods.",
+            "status": "not_in_papers",
+            "evidence": "CoVe decreased hallucinations on list-based questions from Wikidata, closed-book MultiSpanQA and long-form biography generation."
+          },
+          {
+            "claim": "The TruthfulQA benchmark focuses on commonsense reasoning in addition to factual correctness.",
+            "status": "not_in_papers",
+            "evidence": "Human raters judged its generations more factual and more specific than those of a parametric-only BART baseline."
+          },
+          {
+            "claim": "CopeBench also evaluates models on their coherence in addition to truthfulness.",
+            "status": "not_in_papers",
+            "evidence": "Human raters judged its generations more factual and more specific than those of a parametric-only BART baseline."
+          }
+        ]
+      }
+    },
+    {
+      "q": "How are types and causes of hallucination categorised?",
+      "seconds": 19.2,
+      "timings": {
+        "retrieve": 0.017,
+        "generate": 7.259,
+        "validate": 0.0,
+        "review": 3.26,
+        "highlight": 0.058,
+        "compare": 8.603
+      },
+      "retrieved_papers": 12,
+      "relevant_retrieved": 1.0,
+      "relevant_in_answer": 0.0,
+      "findings": 1,
+      "evidence_claims": 1,
+      "draft": {
+        "citations": 3,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "uncited": 1,
+        "unknown_paper": 1,
+        "strength_downgrades": 1,
+        "support": {
+          "supported": 1,
+          "partial": 0,
+          "unsupported": 0,
+          "contradicted": 0,
+          "uncited": 2
+        }
+      },
+      "final": {
+        "citations": 3,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "strength_downgrades": 1,
+        "support": {
+          "supported": 1,
+          "partial": 0,
+          "unsupported": 0,
+          "contradicted": 0,
+          "uncited": 2
+        }
+      },
+      "review": {
+        "verdict": "accept",
+        "notes": [],
+        "revised": false
+      },
+      "summary": "Hallucinations in language models can be caused by data problems like source-reference divergence and modeling issues such as imperfect representation learning. [P1]",
+      "memory_only": {
+        "backed": 0,
+        "partial": 0,
+        "not_in_papers": 4,
+        "contradicted": 1,
+        "claims": 5,
+        "backed_rate": 0.0,
+        "papers_unused_by_memory": 0,
+        "claims_detail": [
+          {
+            "claim": "Hallucinations are categorized by sensory modality such as visual, auditory, and olfactory.",
+            "status": "not_in_papers",
+            "evidence": "ITI raised the truthfulness of Alpaca on TruthfulQA from 32.5% to 65.1%."
+          },
+          {
+            "claim": "Visual hallucinations can be further divided into simple and complex types.",
+            "status": "not_in_papers",
+            "evidence": "ITI raised the truthfulness of Alpaca on TruthfulQA from 32.5% to 65.1%."
+          },
+          {
+            "claim": "Physiological causes of hallucinations include conditions like schizophrenia and brain injuries.",
+            "status": "not_in_papers",
+            "evidence": "Without retrieved knowledge or additional fine-tuning, DoLa improved LLaMA models' truthfulness on TruthfulQA by 12 to 17 absolute percentage points."
+          },
+          {
+            "claim": "Psychological causes of hallucinations include stress, trauma, and substance use.",
+            "status": "not_in_papers",
+            "evidence": "Contributing causes include data problems such as source-reference divergence and modeling problems such as imperfect representation learning, erroneous decoding and exposure bias."
+          },
+          {
+            "claim": "A study by Bentall et al. (2010) in Psychological Medicine reviews the types and causes of hallucinations.",
+            "status": "contradicted",
+            "evidence": "ITI raised the truthfulness of Alpaca on TruthfulQA from 32.5% to 65.1%."
+          }
+        ]
+      }
+    },
+    {
+      "q": "Can preference optimisation be used to train more factual models?",
+      "seconds": 21.2,
+      "timings": {
+        "retrieve": 0.02,
+        "generate": 8.186,
+        "validate": 0.001,
+        "review": 3.25,
+        "highlight": 0.135,
+        "compare": 9.479
+      },
+      "retrieved_papers": 12,
+      "relevant_retrieved": 1.0,
+      "relevant_in_answer": 1.0,
+      "findings": 1,
+      "evidence_claims": 1,
+      "draft": {
+        "citations": 4,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "uncited": 1,
+        "unknown_paper": 0,
+        "strength_downgrades": 0,
+        "support": {
+          "supported": 2,
+          "partial": 0,
+          "unsupported": 0,
+          "contradicted": 0,
+          "uncited": 1
+        }
+      },
+      "final": {
+        "citations": 4,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "strength_downgrades": 0,
+        "support": {
+          "supported": 2,
+          "partial": 0,
+          "unsupported": 0,
+          "contradicted": 0,
+          "uncited": 1
+        }
+      },
+      "review": {
+        "verdict": "accept",
+        "notes": [],
+        "revised": false
+      },
+      "summary": "Preference optimisation, as seen in the method of Direct Preference Optimization in [P1], can be used to train more factual models. This approach fine-tunes models on automatically built factuality preference rankings, which can improve their truthfulness.",
+      "memory_only": {
+        "backed": 1,
+        "partial": 0,
+        "not_in_papers": 0,
+        "contradicted": 4,
+        "claims": 5,
+        "backed_rate": 0.2,
+        "papers_unused_by_memory": 0,
+        "claims_detail": [
+          {
+            "claim": "Preference optimization can be used to train more factual models.",
+            "status": "backed",
+            "evidence": "The authors fine-tune models with Direct Preference Optimization on automatically built factuality preference rankings, derived either from consistency with an external knowledge base or from the model's own confidence."
+          },
+          {
+            "claim": "Le, Norouzi, and Dean (2016) demonstrated that using preference-based optimization can improve the factual accuracy of models.",
+            "status": "contradicted",
+            "evidence": "Without retrieved knowledge or additional fine-tuning, DoLa improved LLaMA models' truthfulness on TruthfulQA by 12 to 17 absolute percentage points."
+          },
+          {
+            "claim": "By optimizing for a preference towards correct answers, the model's performance on factual tasks improved significantly.",
+            "status": "contradicted",
+            "evidence": "Larger models were generally less truthful because they imitate popular falsehoods more effectively; the authors argue that scaling alone is less promising for truthfulness than fine-tuning with objectives other than imitating web text."
+          },
+          {
+            "claim": "Wu et al. (2020) used preference optimization to enhance the factual consistency of generated text.",
+            "status": "contradicted",
+            "evidence": "Without retrieved knowledge or additional fine-tuning, DoLa improved LLaMA models' truthfulness on TruthfulQA by 12 to 17 absolute percentage points."
+          },
+          {
+            "claim": "Using preference optimization led to a 15% increase in factual accuracy in the work by Wu et al. (2020).",
+            "status": "contradicted",
+            "evidence": "The paper shows a statistical lower bound on the rate at which calibrated pretrained language models hallucinate arbitrary facts whose truth cannot be determined from the training data."
+          }
+        ]
+      }
+    },
+    {
+      "q": "How can knowledge in a language model be updated without retraining?",
+      "seconds": 20.5,
+      "timings": {
+        "retrieve": 0.022,
+        "generate": 8.469,
+        "validate": 0.0,
+        "review": 3.23,
+        "highlight": 0.179,
+        "compare": 8.459
+      },
+      "retrieved_papers": 12,
+      "relevant_retrieved": 1.0,
+      "relevant_in_answer": 0.0,
+      "findings": 2,
+      "evidence_claims": 1,
+      "draft": {
+        "citations": 6,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "uncited": 1,
+        "unknown_paper": 2,
+        "strength_downgrades": 0,
+        "support": {
+          "supported": 1,
+          "partial": 0,
+          "unsupported": 2,
+          "contradicted": 0,
+          "uncited": 1
+        }
+      },
+      "final": {
+        "citations": 6,
+        "invented": 0,
+        "misattributed": 0,
+        "weak": 0,
+        "number_issues": 0,
+        "strength_downgrades": 0,
+        "support": {
+          "supported": 1,
+          "partial": 0,
+          "unsupported": 2,
+          "contradicted": 0,
+          "uncited": 1
+        }
+      },
+      "review": {
+        "verdict": "accept",
+        "notes": [],
+        "revised": false
+      },
+      "summary": "Knowledge in a language model can be updated without retraining by using retrieval-augmented generation [P2] or by using reflection tokens [P8]. These methods allow for the incorporation of new knowledge or the control of model responses without the need for full retraining.",
+      "memory_only": {
+        "backed": 1,
+        "partial": 0,
+        "not_in_papers": 3,
+        "contradicted": 1,
+        "claims": 5,
+        "backed_rate": 0.2,
+        "papers_unused_by_memory": 0,
+        "claims_detail": [
+          {
+            "claim": "Fine-tuning involves adjusting only a small portion of the model.",
+            "status": "not_in_papers",
+            "evidence": "In a controlled closed-book QA setup, the study varies the share of fine-tuning examples that introduce knowledge the model did not acquire in pretraining."
+          },
+          {
+            "claim": "Prompt tuning modifies input prompts to the model.",
+            "status": "backed",
+            "evidence": "Larger language models are well calibrated on diverse multiple-choice and true/false questions when the questions are presented in a suitable format."
+          },
+          {
+            "claim": "A study by Brown et al. (2020) on GPT-2 showed fine-tuning can improve performance.",
+            "status": "not_in_papers",
+            "evidence": "The reference-free variant that uses model confidence still improved factuality, so the approach can work without a curated knowledge base."
+          },
+          {
+            "claim": "Prompt tuning has been shown to work effectively with minimal model changes.",
+            "status": "contradicted",
+            "evidence": "Without retrieved knowledge or additional fine-tuning, DoLa improved LLaMA models' truthfulness on TruthfulQA by 12 to 17 absolute percentage points."
+          },
+          {
+            "claim": "These methods allow for targeted updates without full retraining.",
+            "status": "not_in_papers",
+            "evidence": "Reflection tokens make the model controllable at inference time, so users can trade citation precision against completeness without retraining."
+          }
+        ]
+      }
+    }
+  ]
+}

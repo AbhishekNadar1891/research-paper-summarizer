@@ -84,12 +84,19 @@ def evaluate_question(pipe: Pipeline, item: dict, with_compare: bool) -> dict:
             "misattributed": final_rep.misattributed, "weak": final_rep.weak,
             "number_issues": issue_count(final_rep, IssueKind.NUMBER),
             "strength_downgrades": issue_count(final_rep, IssueKind.DOWNGRADED),
+            "unknown_paper": issue_count(final_rep, IssueKind.UNKNOWN_PAPER),
             "support": support_counts(r.highlights),
         },
         "review": {"verdict": r.review.verdict if r.review else None,
                    "notes": [n.kind.value for n in r.review.notes] if r.review else [],
                    "revised": bool(r.review and r.review.revised is not None)},
         "summary": r.answer.summary,
+        "findings_detail": [{"paper": f.paper_key, "citations": f.citations, "finding": f.finding}
+                            for f in r.answer.findings],
+        "draft_findings_detail": [{"paper": f.paper_key, "citations": f.citations, "finding": f.finding}
+                                  for f in (r.draft.findings if r.draft else [])],
+        "review_notes": [{"kind": n.kind.value, "target": n.target, "comment": n.comment}
+                         for n in (r.review.notes if r.review else [])],
     }
     if r.comparison:
         row["memory_only"] = {**r.comparison.stats(),
@@ -119,6 +126,7 @@ def aggregate(rows: list[dict]) -> dict:
             "weak_rate": sum(r[name]["weak"] for r in ok) / tot if tot else None,
             "number_issues": sum(r[name]["number_issues"] for r in ok),
             "strength_downgrades": sum(r[name]["strength_downgrades"] for r in ok),
+            "unknown_paper": sum(r[name].get("unknown_paper", 0) for r in ok),
             "answers_with_invalid_citation": sum((r[name]["invented"] + r[name]["misattributed"]) > 0 for r in ok),
             "sentence_support": sup,
             "supported_share_of_cited": cited_support_rate(sup),
@@ -169,12 +177,14 @@ def write_markdown(res: dict, path: Path) -> None:
          f"| Weak support (little overlap with the cited passage) | {pct(d['weak_rate'])} |",
          f"| Numbers not found in the cited passage | {d['number_issues']} |",
          f"| Evidence ratings lowered (too few papers for the rating) | {d['strength_downgrades']} |",
+         f"| Findings about a paper that couldn't be matched to a retrieved paper | {d['unknown_paper']} |",
          f"| Cited sentences the passages support (truth highlighter) | {pct(d['supported_share_of_cited'])} |",
          "", "## After Reviewer 2 and the validator", "",
          "| Measure | Draft | Final |", "|---|---|---|",
          f"| Invalid citations | {pct(d['invalid_citation_rate'])} | {pct(f['invalid_citation_rate'])} "
          "(then removed before display) |",
          f"| Weak support | {pct(d['weak_rate'])} | {pct(f['weak_rate'])} |",
+         f"| Findings not matched to a paper | {d['unknown_paper']} | {f['unknown_paper']} |",
          f"| Cited sentences supported | {pct(d['supported_share_of_cited'])} | {pct(f['supported_share_of_cited'])} |",
          "", f"Reviewer 2 verdicts: {a['reviewer']['verdicts']}; it rewrote {a['reviewer']['revised']} of "
          f"{a['succeeded']} answers. Notes raised: {a['reviewer']['note_kinds'] or 'none'}.", "",

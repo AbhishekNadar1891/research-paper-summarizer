@@ -128,3 +128,15 @@ def test_negation_count_mismatch_with_existing_negation():
     premise = "Without retrieved knowledge, DoLa improved truthfulness on TruthfulQA."
     [flip] = s.score([(premise, "Without retrieved knowledge, DoLa did not improve truthfulness on TruthfulQA.")])
     assert flip.contradiction > flip.entailment
+
+
+def test_off_topic_passages_are_not_judged(pinned):
+    from citebench.nli import best_support
+    class AlwaysContradicts:
+        name = "contra"; supported_at, partial_at, contradicted_at = 0.6, 0.3, 0.5
+        def score(self, pairs):
+            return [NLIScore(0.0, 0.99, 0.01) for _ in pairs]
+    # nothing in the pinned passages is about the C4 dataset -> no verdict at all
+    assert best_support("The C4 dataset is used to pretrain language models.", pinned, AlwaysContradicts()) is None
+    out = highlight_text("The C4 dataset is used to pretrain language models [P1].", pinned, AlwaysContradicts())
+    assert out[0].support is Support.UNSUPPORTED

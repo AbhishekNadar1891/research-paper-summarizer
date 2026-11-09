@@ -82,3 +82,22 @@ def test_extractive_finding_keeps_decimal_numbers(retriever):
 def test_no_passages():
     ans = generate_grounded("anything", [], llm=None)
     assert ans.findings == [] and ans.gaps
+
+
+def test_resolve_paper_key_variants(retriever):
+    from citebench.generate import resolve_paper_key
+    res = retriever.retrieve(Q, top_k=12)
+    keys = {r.paper.key for r in res}
+    assert "dhuliawala2023" in keys
+    lbl = next(r.label for r in res if r.paper.key == "dhuliawala2023")
+    assert resolve_paper_key("dhuliawala2023", [], res) == "dhuliawala2023"
+    assert resolve_paper_key("Dhuliawala et al. (2023)", [], res) == "dhuliawala2023"
+    assert resolve_paper_key("Chain-of-Verification Reduces Hallucination in Large Language Models", [], res) == "dhuliawala2023"
+    assert resolve_paper_key(lbl, [], res) == "dhuliawala2023"
+    assert resolve_paper_key("Nobody et al.", [lbl], res) == "Nobody et al."  # named but unknown: kept, validator flags it
+
+
+def test_answer_from_json_attributes_unnamed_finding_by_citation(retriever):
+    res = retriever.retrieve(Q, top_k=4)
+    ans = answer_from_json(Q, {"summary": "s", "findings": [{"finding": "x", "citations": [res[0].label]}]}, res)
+    assert ans.findings[0].paper_key == res[0].paper.key

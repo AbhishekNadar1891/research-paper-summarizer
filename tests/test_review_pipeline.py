@@ -89,7 +89,9 @@ def test_pipeline_with_llm(collection, retriever, fake_llm):
              "evidence": [{"claim": "Both help.", "citations": [a.label, b.label], "strength": "strong"}]}
     review_notes = {"verdict": "accept", "notes": []}
     closed_book = {"answer": "Retrieval helps.", "claims": ["Retrieval augmentation reduces hallucination in dialogue."]}
-    llm = fake_llm(draft, review_notes, closed_book)
+    # The reviewer accepts, but the validator's proven errors still force a revision; this fake
+    # "revision" repeats the draft, so the same errors must still be caught and removed.
+    llm = fake_llm(draft, review_notes, draft, closed_book)
 
     r = Pipeline(collection, llm=llm, scorer=LexicalScorer(), retriever=retriever).run(Q)
     assert r.llm_used
@@ -100,10 +102,24 @@ def test_pipeline_with_llm(collection, retriever, fake_llm):
     assert "[P99]" not in r.answer.summary
     assert r.answer.findings[1].citations == []
     assert r.comparison and r.comparison.stats()["claims"] == 1
-    assert len(llm.prompts) == 3
+    assert len(llm.prompts) == 4
+    assert r.review.verdict == "minor"
 
 
 def test_pipeline_flags_can_skip_stages(collection, retriever):
     r = Pipeline(collection, llm=None, scorer=LexicalScorer(), retriever=retriever).run(
         Q, with_review=False, with_highlights=False)
     assert r.review is None and r.highlights is None and r.draft is None
+
+
+def test_validator_errors_force_revision_when_reviewer_accepts(res, fake_llm):
+    a = res[0]
+    draft = Answer(question=Q, summary=f"Something [P99].",
+                   findings=[Finding(paper_key=a.paper.key, finding=a.passage.text, citations=[a.label])])
+    revised = {"summary": f"Fixed [{a.label}].", "findings": [{"paper": a.paper.key, "finding": a.passage.text,
+                                                               "citations": [a.label]}]}
+    llm = fake_llm({"verdict": "accept", "notes": []}, revised)
+    result = review(draft, res, validate(draft, res), llm)
+    assert result.verdict == "minor"
+    assert any(n.kind is NoteKind.BAD_CITATION for n in result.notes)
+    assert result.revised is not None and "P99" not in result.revised.summary

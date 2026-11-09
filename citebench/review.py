@@ -163,12 +163,20 @@ def review(answer: Answer, retrieved: Sequence[RetrievedPassage], report: Valida
     data = complete_json(llm, REVIEW_PROMPT.format(question=answer.question, passages=passages, draft=draft,
                                                    issues=_issues_text(report)), system=SYSTEM)
     verdict, notes = _parse_notes(data)
+    # Problems the validator proved (bad citations, unknown papers, wrong numbers) are fixed even if the
+    # reviewing model waved them through; small models tend to accept everything.
+    proven = [n for n in notes_from_report(report) if n.kind in (NoteKind.BAD_CITATION, NoteKind.MISREAD_NUMBER)
+              and not n.comment.startswith("The claim shares little")] if report else []
+    seen = {(n.target, n.comment) for n in notes}
+    notes += [n for n in proven if (n.target, n.comment) not in seen]
+    if proven and verdict == "accept":
+        verdict = "minor"
     result = ReviewResult(verdict=verdict, notes=notes)
     if revise and notes and verdict != "accept":
         notes_text = "\n".join(f"- [{n.kind.value}] {n.target}: {n.comment}" for n in notes)
         revised_data = complete_json(llm, REVISE_PROMPT.format(question=answer.question, passages=passages,
                                                                draft=draft, notes=notes_text), system=SYSTEM)
-        revised = answer_from_json(answer.question, revised_data)
+        revised = answer_from_json(answer.question, revised_data, list(retrieved))
         if revised.summary or revised.findings:  # ignore an empty revision rather than lose the draft
             result.revised = revised
     return result
