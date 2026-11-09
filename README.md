@@ -117,6 +117,10 @@ print(result.report.summary())          # citation check
 print(result.highlights.counts())       # supported / partial / unsupported ...
 ```
 
+## Hosted demo
+
+`demo/streamlit_app.py` runs the same app with `demo/requirements.txt`, which leaves out PyTorch and the model downloads, so it fits free hosting. In that lightweight mode the app uses keyword search, the word-overlap checker and extractive answers; visitors can paste their own Anthropic key for LLM answers. To deploy on [Streamlit Community Cloud](https://share.streamlit.io): **Create app → this repo → branch `main` → main file `demo/streamlit_app.py` → Deploy.**
+
 ## Screenshots
 
 | Evidence ratings and per-paper findings | Library |

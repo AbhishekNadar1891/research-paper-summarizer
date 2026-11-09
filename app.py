@@ -130,6 +130,11 @@ with st.sidebar:
 # Header + query
 # --------------------------------------------------------------------------
 st.title("Citebench")
+if os.getenv("CITEBENCH_DEMO"):
+    st.info("**Hosted demo, lightweight mode:** keyword search, a word-overlap checker instead of the NLI model, "
+            "and extractive answers. Paste an Anthropic API key in the sidebar for LLM answers (used for your "
+            "session only), or run it locally with a free Ollama model for the full version: "
+            "[GitHub](https://github.com/AbhishekNadar1891/research-paper-summarizer).")
 st.caption("Ask a research question. Answers come from retrieved passages across many papers, every citation is "
            "checked, and individual findings are kept separate from what the overall evidence supports.")
 

@@ -1,0 +1,9 @@
+# Lightweight requirements for the hosted demo (Streamlit Community Cloud / Hugging Face Spaces).
+# No torch or model downloads: the app falls back to BM25 search and the lexical checker on its own.
+streamlit>=1.50
+numpy>=1.26
+rank-bm25>=0.2.2
+python-dotenv>=1.0
+pypdf>=4.2
+arxiv>=2.1
+anthropic>=0.40
