@@ -97,6 +97,16 @@ def evaluate_question(pipe: Pipeline, item: dict, with_compare: bool) -> dict:
                                   for f in (r.draft.findings if r.draft else [])],
         "review_notes": [{"kind": n.kind.value, "target": n.target, "comment": n.comment}
                          for n in (r.review.notes if r.review else [])],
+        # For auditing the automatic labels by hand: what each passage said, and how each sentence was judged.
+        "passages": [{"label": x.label, "paper": x.paper.key, "text": x.passage.text} for x in r.retrieved],
+        "sentence_labels": [
+            {"where": where, "sentence": h.text, "citations": h.citations, "label": h.support.value,
+             "entailment": round(h.entailment, 3),
+             "best_evidence": ({"label": h.best.label, "sentence": h.best.sentence} if h.best else None)}
+            for where, sents in ([("summary", r.highlights.summary)] +
+                                 [(f"finding:{k}", v) for k, v in r.highlights.findings.items()])
+            for h in sents
+        ] if r.highlights else [],
     }
     if r.comparison:
         row["memory_only"] = {**r.comparison.stats(),

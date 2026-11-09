@@ -156,3 +156,9 @@ def test_changed_number_is_flagged(collection):
 def test_numbers_ignore_citation_labels():
     from citebench.validate import numbers_in
     assert numbers_in("Rose from 47.50% to 14.5% [P3] in 2023") == {"47.5", "14.5", "2023"}
+
+
+def test_reference_years_are_not_numbers():
+    from citebench.validate import numbers_in
+    assert numbers_in("Gekhman et al. (2024) found 58% [P1]. DoLa (2023) helps. Lewis et al., 2020 agrees.") == {"58"}
+    assert numbers_in("In 2023, accuracy reached 71%.") == {"2023", "71"}

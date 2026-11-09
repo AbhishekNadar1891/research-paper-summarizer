@@ -110,10 +110,15 @@ class ValidationReport:
 _NUM = re.compile(r"(?<![\w.])\d+(?:\.\d+)?")
 
 
+# Years used as references, not as claims: "(2023)", "et al. 2024", "Lewis et al., 2020".
+_REF_YEAR = re.compile(r"\(\s*(?:19|20)\d{2}[a-z]?\s*\)|et al\.?,?\s*(?:19|20)\d{2}[a-z]?", re.I)
+
+
 def numbers_in(text: str) -> set[str]:
-    """Numbers in text, normalised ("58.0" -> "58"). Citation labels like [P3] are ignored."""
+    """Numbers in text, normalised ("58.0" -> "58"). Citation labels like [P3] and reference years
+    like "(2023)" or "et al. 2024" are ignored."""
     out = set()
-    for n in _NUM.findall(_INLINE_ANY.sub("", text)):
+    for n in _NUM.findall(_REF_YEAR.sub("", _INLINE_ANY.sub("", text))):
         out.add(n.rstrip("0").rstrip(".") if "." in n else n)
     return out
 
